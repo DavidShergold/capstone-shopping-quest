@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from .models import QuestItem
 
-# Create your views here.
-from django.http import HttpResponse
-
-def home(request):
-    return HttpResponse("Welcome to Shopping Quest!")
+def quest_log(request):
+    if request.user.is_authenticated:
+        items = QuestItem.objects.filter(adventurer=request.user)
+    else:
+        items = []
+    return render(request, 'quests/quest_log.html', {'items': items})
