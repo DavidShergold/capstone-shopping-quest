@@ -80,7 +80,11 @@
 <body>
     <div class="header">
         <h1>🗡️ Shopping Quest</h1>
-        <p>Welcome, {{ user.username|default:"Adventurer" }}!</p>
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}!</p>
+        {% else %}
+            <p>Welcome, Adventurer! <a href="{% url 'login' %}" style="color: #3498db;">Login</a> to track your quests.</p>
+        {% endif %}
     </div>
 
     {% if items %}
@@ -89,10 +93,13 @@
                 <div class="quest-item {% if item.is_completed %}completed{% endif %}">
                     <div class="quest-title">{{ item.name }}</div>
                     <div class="quest-description">
+                        {% if item.shop %}
+                            🏪 Shop: {{ item.shop.name }}
+                        {% endif %}
                         {% if item.category %}
-                            Category: {{ item.category }}
-                        {% else %}
-                            No category specified
+                            | 📂 Category: {{ item.category }}
+                        {% elif not item.shop %}
+                            📂 No category specified
                         {% endif %}
                     </div>
                     <div class="quest-status {% if item.is_completed %}status-completed{% else %}status-active{% endif %}">
@@ -115,8 +122,21 @@
         </div>
     {% endif %}
 
-    <div style="text-align: center;">
-        <a href="{% url 'quests:add_shop' %}" class="new-quest-button">🛒 Add New Quest</a>
-    </div>
+    {% if user.is_authenticated %}
+        <div style="text-align: center;">
+            <a href="{% url 'quests:add_shop' %}" class="new-quest-button">🛒 Add New Quest</a>
+        </div>
+    {% else %}
+        <div style="text-align: center;">
+            <a href="{% url 'login' %}" class="new-quest-button">🔐 Login to Add Quests</a>
+        </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+    </form>
+{% endif %}
 </body>
 </html>
