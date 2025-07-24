@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import QuestLog
+from .models import QuestLog, Shop
 from .forms import ShopForm, QuestLogForm
 
 def home(request):
@@ -9,9 +9,24 @@ def home(request):
 def quest_log(request):
     if request.user.is_authenticated:
         items = QuestLog.objects.filter(adventurer=request.user)
+        shops = Shop.objects.filter(adventurer=request.user)
     else:
         items = []
-    return render(request, 'quests/quest_log_new.html', {'items': items})
+        shops = []
+    return render(request, 'quests/quest_log_new.html', {'items': items, 'shops': shops})
+
+def shop_quest_log(request, shop_id):
+    if request.user.is_authenticated:
+        shop = get_object_or_404(Shop, id=shop_id, adventurer=request.user)
+        items = QuestLog.objects.filter(adventurer=request.user, shop=shop)
+        shops = Shop.objects.filter(adventurer=request.user)
+    else:
+        return redirect('login')
+    return render(request, 'quests/quest_log_new.html', {
+        'items': items, 
+        'shops': shops, 
+        'selected_shop': shop
+    })
 
 @login_required
 def add_shop(request):

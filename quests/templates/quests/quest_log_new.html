@@ -75,6 +75,27 @@
         .add-quest-btn:hover, .new-quest-button:hover {
             background-color: #2980b9;
         }
+        .shop-filter {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .shop-dropdown {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: white;
+        }
+        .filter-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
     </style>
 </head>
 <body>
@@ -82,10 +103,28 @@
         <h1>🗡️ Shopping Quest</h1>
         {% if user.is_authenticated %}
             <p>Welcome, {{ user.username }}!</p>
+            {% if selected_shop %}
+                <p style="color: #3498db;">📍 Viewing quests for: {{ selected_shop.name }}</p>
+            {% endif %}
         {% else %}
             <p>Welcome, Adventurer! <a href="{% url 'login' %}" style="color: #3498db;">Login</a> to track your quests.</p>
         {% endif %}
     </div>
+
+    {% if user.is_authenticated and shops %}
+        <div class="shop-filter">
+            <div class="filter-label">🏪 Filter by Shop:</div>
+            <select class="shop-dropdown" onchange="location.href=this.value">
+                <option value="{% url 'quests:quest_log' %}" {% if not selected_shop %}selected{% endif %}>All Quests</option>
+                {% for shop in shops %}
+                    <option value="{% url 'quests:shop_quest_log' shop.id %}" 
+                            {% if selected_shop and selected_shop.id == shop.id %}selected{% endif %}>
+                        {{ shop.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
 
     {% if items %}
         <div class="quest-list">
@@ -118,7 +157,11 @@
     {% else %}
         <div class="no-quests">
             <h3>No quests found!</h3>
-            <p>Your adventure awaits... Start by adding your first quest!</p>
+            {% if selected_shop %}
+                <p>No quests found for {{ selected_shop.name }}. Start adding some shopping items!</p>
+            {% else %}
+                <p>Your adventure awaits... Start by adding your first quest!</p>
+            {% endif %}
         </div>
     {% endif %}
 
