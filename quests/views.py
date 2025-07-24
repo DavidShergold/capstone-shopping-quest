@@ -1,11 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.contrib import messages
 from django.http import JsonResponse
 from .models import QuestLog, Shop, QuestObjective
-from .forms import ShopForm, QuestLogForm, QuestObjectiveForm
+from .forms import ShopForm, QuestLogForm, QuestObjectiveForm, CustomUserCreationForm
 
 def home(request):
     return render(request, 'quests/home.html')
+
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Log the user in automatically after registration
+            login(request, user)
+            messages.success(request, f'Welcome to Shopping Quest, {user.username}! Your adventure begins now!')
+            return redirect('quests:quest_log')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'quests/register.html', {'form': form})
 
 def quest_log(request):
     if request.user.is_authenticated:

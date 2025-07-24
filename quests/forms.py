@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .models import QuestLog, Shop, QuestObjective
 
 
@@ -108,3 +110,53 @@ class QuestObjectiveUpdateForm(forms.ModelForm):
                 'class': 'objective-checkbox'
             })
         }
+
+
+class CustomUserCreationForm(UserCreationForm):
+    """Custom registration form with styled fields"""
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your email address...'
+        })
+    )
+    
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Choose a username...'
+            })
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Style the password fields
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Create a password...'
+        })
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Confirm your password...'
+        })
+        
+        # Update labels
+        self.fields['username'].label = 'Adventurer Name'
+        self.fields['email'].label = 'Email Address'
+        self.fields['password1'].label = 'Password'
+        self.fields['password2'].label = 'Confirm Password'
+        
+        # Update help texts
+        self.fields['username'].help_text = 'Choose a unique name for your shopping adventures!'
+        self.fields['password1'].help_text = 'Your password must be at least 8 characters long.'
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
