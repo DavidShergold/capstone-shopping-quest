@@ -143,6 +143,50 @@
         .delete-shop-btn:hover {
             background-color: #c0392b;
         }
+        .player-stats {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .level-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .level-badge {
+            background-color: #f39c12;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .exp-info {
+            text-align: right;
+            color: #666;
+        }
+        .exp-bar {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .exp-fill {
+            background: linear-gradient(90deg, #28a745, #20c997);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        .exp-text {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -157,6 +201,26 @@
             <p>Welcome, Adventurer! <a href="{% url 'login' %}" style="color: #3498db;">Login</a> to track your quests.</p>
         {% endif %}
     </div>
+
+    {% if user.is_authenticated and profile %}
+        <div class="player-stats">
+            <div class="level-display">
+                <div>
+                    <span class="level-badge">⭐ Level {{ profile.level }}</span>
+                </div>
+                <div class="exp-info">
+                    <div>{{ profile.experience }} XP</div>
+                    <div style="font-size: 0.8em;">{{ profile.experience_to_next_level }} XP to next level</div>
+                </div>
+            </div>
+            <div class="exp-bar">
+                <div class="exp-fill" style="width: {{ profile.current_level_progress }}%"></div>
+            </div>
+            <div class="exp-text">
+                Progress to Level {{ profile.level|add:1 }}: {{ profile.current_level_progress|floatformat:1 }}%
+            </div>
+        </div>
+    {% endif %}
 
     {% if user.is_authenticated and shops %}
         <div class="shop-filter">

@@ -11,10 +11,16 @@ def quest_log(request):
     if request.user.is_authenticated:
         items = QuestLog.objects.filter(adventurer=request.user)
         shops = Shop.objects.filter(adventurer=request.user)
+        profile = request.user.userprofile
     else:
         items = []
         shops = []
-    return render(request, 'quests/quest_log_new.html', {'items': items, 'shops': shops})
+        profile = None
+    return render(request, 'quests/quest_log_new.html', {
+        'items': items, 
+        'shops': shops,
+        'profile': profile
+    })
 
 def shop_quest_log(request, shop_id):
     if request.user.is_authenticated:
@@ -22,6 +28,7 @@ def shop_quest_log(request, shop_id):
         items = QuestLog.objects.filter(adventurer=request.user, shop=shop)
         objectives = QuestObjective.objects.filter(adventurer=request.user, shop=shop)
         shops = Shop.objects.filter(adventurer=request.user)
+        profile = request.user.userprofile
         
         # Calculate progress
         total_objectives = objectives.count()
@@ -38,6 +45,7 @@ def shop_quest_log(request, shop_id):
         'total_objectives': total_objectives,
         'completed_objectives': completed_objectives,
         'progress_percentage': progress_percentage,
+        'profile': profile,
     })
 
 @login_required
@@ -86,9 +94,36 @@ def add_objective(request, shop_id):
 def toggle_objective(request, objective_id):
     if request.method == 'POST':
         objective = get_object_or_404(QuestObjective, id=objective_id, adventurer=request.user)
+        was_completed = objective.is_completed
         objective.is_completed = not objective.is_completed
         objective.save()
-        return JsonResponse({'success': True, 'completed': objective.is_completed})
+        
+        levels_gained = 0
+        completion_bonus = 0
+        
+        # Award experience for completing objective
+        if objective.is_completed and not was_completed:
+            levels_gained += objective.award_experience()
+        
+        # Check for shop completion bonus
+        shop_levels = objective.shop.check_completion_bonus()
+        levels_gained += shop_levels
+        if shop_levels > 0:
+            completion_bonus = 30
+        
+        # Get updated profile info
+        profile = request.user.userprofile
+        
+        return JsonResponse({
+            'success': True, 
+            'completed': objective.is_completed,
+            'levels_gained': levels_gained,
+            'completion_bonus': completion_bonus,
+            'current_level': profile.level,
+            'current_experience': profile.experience,
+            'experience_to_next': profile.experience_to_next_level,
+            'level_progress': profile.current_level_progress
+        })
     return JsonResponse({'success': False})
 
 @login_required

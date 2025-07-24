@@ -129,6 +129,71 @@
             height: 100%;
             transition: width 0.3s ease;
         }
+        .player-stats {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .level-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .level-badge {
+            background-color: #f39c12;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .exp-info {
+            text-align: right;
+            color: #666;
+        }
+        .exp-bar {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .exp-fill {
+            background: linear-gradient(90deg, #28a745, #20c997);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        .exp-text {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .notification.exp {
+            background-color: #28a745;
+        }
+        .notification.level-up {
+            background-color: #f39c12;
+        }
     </style>
 </head>
 <body>
@@ -137,6 +202,26 @@
         <h2>🏪 {{ selected_shop.name }}</h2>
         <p>Quest Objectives</p>
     </div>
+
+    {% if profile %}
+        <div class="player-stats">
+            <div class="level-display">
+                <div>
+                    <span class="level-badge">⭐ Level {{ profile.level }}</span>
+                </div>
+                <div class="exp-info">
+                    <div>{{ profile.experience }} XP</div>
+                    <div style="font-size: 0.8em;">{{ profile.experience_to_next_level }} XP to next level</div>
+                </div>
+            </div>
+            <div class="exp-bar">
+                <div class="exp-fill" id="playerExpBar" style="width: {{ profile.current_level_progress }}%"></div>
+            </div>
+            <div class="exp-text" id="playerExpText">
+                Progress to Level {{ profile.level|add:1 }}: {{ profile.current_level_progress|floatformat:1 }}%
+            </div>
+        </div>
+    {% endif %}
 
     <div class="shop-info">
         <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -214,11 +299,34 @@
                 const content = checkbox.nextElementSibling;
                 if (data.completed) {
                     content.classList.add('objective-completed');
+                    
+                    // Show XP notification
+                    showNotification('🎯 +10 XP!', 'exp');
+                    
+                    // Check for completion bonus
+                    if (data.completion_bonus > 0) {
+                        setTimeout(() => {
+                            showNotification('🏆 Shop Complete! +30 XP Bonus!', 'exp');
+                        }, 1000);
+                    }
+                    
+                    // Check for level up
+                    if (data.levels_gained > 0) {
+                        setTimeout(() => {
+                            showNotification(`🎉 Level Up! You are now Level ${data.current_level}!`, 'level-up');
+                        }, 1500);
+                    }
                 } else {
                     content.classList.remove('objective-completed');
                 }
+                
+                // Update player stats if available
+                if (document.getElementById('playerExpBar')) {
+                    updatePlayerStats(data);
+                }
+                
                 // Reload to update progress bar
-                setTimeout(() => location.reload(), 300);
+                setTimeout(() => location.reload(), 2000);
             } else {
                 // Revert checkbox if failed
                 checkbox.checked = !checkbox.checked;
@@ -228,6 +336,56 @@
             console.error('Error:', error);
             checkbox.checked = !checkbox.checked;
         });
+    }
+    
+    function showNotification(message, type) {
+        // Remove existing notifications
+        const existing = document.querySelector('.notification');
+        if (existing) existing.remove();
+        
+        // Create new notification
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => notification.classList.add('show'), 100);
+        
+        // Hide notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+    
+    function updatePlayerStats(data) {
+        // Update level if available
+        const levelBadge = document.querySelector('.level-badge');
+        if (levelBadge) {
+            levelBadge.textContent = `⭐ Level ${data.current_level}`;
+        }
+        
+        // Update XP display
+        const expInfo = document.querySelector('.exp-info');
+        if (expInfo) {
+            expInfo.innerHTML = `
+                <div>${data.current_experience} XP</div>
+                <div style="font-size: 0.8em;">${data.experience_to_next} XP to next level</div>
+            `;
+        }
+        
+        // Update progress bar
+        const expBar = document.getElementById('playerExpBar');
+        if (expBar) {
+            expBar.style.width = `${data.level_progress}%`;
+        }
+        
+        // Update progress text
+        const expText = document.getElementById('playerExpText');
+        if (expText) {
+            expText.textContent = `Progress to Level ${data.current_level + 1}: ${data.level_progress.toFixed(1)}%`;
+        }
     }
     </script>
     
