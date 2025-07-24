@@ -96,6 +96,53 @@
             margin-bottom: 10px;
             color: #2c3e50;
         }
+        .shop-management {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .manage-shops-btn {
+            background-color: #f39c12;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .manage-shops-btn:hover {
+            background-color: #e67e22;
+        }
+        .shop-list {
+            margin-top: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        .shop-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .shop-item:last-child {
+            border-bottom: none;
+        }
+        .shop-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .delete-shop-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 4px 8px;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+        .delete-shop-btn:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 <body>
@@ -123,7 +170,39 @@
                     </option>
                 {% endfor %}
             </select>
+            
+            <div class="shop-management">
+                <button onclick="toggleShopList()" class="manage-shops-btn" id="toggleBtn">🛠️ Manage Shops</button>
+            </div>
+            
+            <div class="shop-list" id="shopList" style="display: none;">
+                <h4>Your Shops:</h4>
+                {% for shop in shops %}
+                    <div class="shop-item">
+                        <span class="shop-name">🏪 {{ shop.name }}</span>
+                        <a href="{% url 'quests:delete_shop' shop.id %}" class="delete-shop-btn" 
+                           onclick="return confirm('Are you sure you want to delete {{ shop.name }}?')">
+                            🗑️ Delete
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
+        
+        <script>
+        function toggleShopList() {
+            var shopList = document.getElementById('shopList');
+            var toggleBtn = document.getElementById('toggleBtn');
+            
+            if (shopList.style.display === 'none') {
+                shopList.style.display = 'block';
+                toggleBtn.textContent = '📁 Hide Shops';
+            } else {
+                shopList.style.display = 'none';
+                toggleBtn.textContent = '🛠️ Manage Shops';
+            }
+        }
+        </script>
     {% endif %}
 
     {% if items %}

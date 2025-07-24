@@ -41,3 +41,14 @@ def add_shop(request):
         form = ShopForm()
 
     return render(request, 'quests/add_shop.html', {'form': form})
+
+@login_required
+def delete_shop(request, shop_id):
+    shop = get_object_or_404(Shop, id=shop_id, adventurer=request.user)
+    
+    if request.method == 'POST':
+        shop_name = shop.name
+        shop.delete()
+        return redirect('quests:quest_log')
+    
+    return render(request, 'quests/delete_shop.html', {'shop': shop})
