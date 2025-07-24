@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ selected_shop.name }} - Quest Objectives</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .shop-info {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .objectives-section {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .objective-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .objective-item:last-child {
+            border-bottom: none;
+        }
+        .objective-checkbox {
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        .objective-content {
+            flex-grow: 1;
+        }
+        .objective-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .objective-completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .objective-quantity {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .objective-notes {
+            color: #666;
+            font-size: 0.9em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .objective-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .add-objective-btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .add-objective-btn:hover {
+            background-color: #229954;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+        .no-objectives {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+        .progress-bar {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background-color: #28a745;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗡️ Shopping Quest</h1>
+        <h2>🏪 {{ selected_shop.name }}</h2>
+        <p>Quest Objectives</p>
+    </div>
+
+    <div class="shop-info">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h3>📋 Shopping List Progress</h3>
+                {% if total_objectives > 0 %}
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ progress_percentage }}%"></div>
+                    </div>
+                    <p>{{ completed_objectives }} of {{ total_objectives }} items completed</p>
+                {% else %}
+                    <p>No objectives added yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="objectives-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3>🎯 Quest Objectives</h3>
+            <a href="{% url 'quests:add_objective' selected_shop.id %}" class="add-objective-btn">➕ Add Item</a>
+        </div>
+
+        {% if objectives %}
+            {% for objective in objectives %}
+                <div class="objective-item">
+                    <input type="checkbox" 
+                           class="objective-checkbox" 
+                           {% if objective.is_completed %}checked{% endif %}
+                           onchange="toggleObjective({{ objective.id }}, this)">
+                    
+                    <div class="objective-content {% if objective.is_completed %}objective-completed{% endif %}">
+                        <div class="objective-name">{{ objective.name }}</div>
+                        {% if objective.quantity > 1 %}
+                            <div class="objective-quantity">Quantity: {{ objective.quantity }}</div>
+                        {% endif %}
+                        {% if objective.notes %}
+                            <div class="objective-notes">{{ objective.notes }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="objective-actions">
+                        <form method="post" action="{% url 'quests:delete_objective' objective.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn" 
+                                    onclick="return confirm('Delete this item?')">🗑️</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-objectives">
+                <p>No quest objectives yet! Add some items to your shopping list.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div style="text-align: center;">
+        <a href="{% url 'quests:quest_log' %}" class="back-btn">← Back to Quest Log</a>
+        <a href="{% url 'quests:add_objective' selected_shop.id %}" class="add-objective-btn">➕ Add Another Item</a>
+    </div>
+
+    <script>
+    function toggleObjective(objectiveId, checkbox) {
+        fetch(`/objective/${objectiveId}/toggle/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const content = checkbox.nextElementSibling;
+                if (data.completed) {
+                    content.classList.add('objective-completed');
+                } else {
+                    content.classList.remove('objective-completed');
+                }
+                // Reload to update progress bar
+                setTimeout(() => location.reload(), 300);
+            } else {
+                // Revert checkbox if failed
+                checkbox.checked = !checkbox.checked;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            checkbox.checked = !checkbox.checked;
+        });
+    }
+    </script>
+    
+    {% csrf_token %}
+</body>
+</html>

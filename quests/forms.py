@@ -1,5 +1,5 @@
 from django import forms
-from .models import QuestLog, Shop
+from .models import QuestLog, Shop, QuestObjective
 
 
 class QuestLogForm(forms.ModelForm):
@@ -66,4 +66,45 @@ class QuestLogUpdateForm(forms.ModelForm):
         }
         labels = {
             'is_completed': 'Mark as completed'
+        }
+
+
+class QuestObjectiveForm(forms.ModelForm):
+    """Form for adding new quest objectives"""
+    class Meta:
+        model = QuestObjective
+        fields = ['name', 'quantity', 'notes']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter item name...',
+                'maxlength': 200
+            }),
+            'quantity': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'min': 1,
+                'value': 1
+            }),
+            'notes': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Additional notes (optional)...',
+                'rows': 3
+            })
+        }
+        labels = {
+            'name': 'Item Name',
+            'quantity': 'Quantity',
+            'notes': 'Notes'
+        }
+
+
+class QuestObjectiveUpdateForm(forms.ModelForm):
+    """Form for updating objective completion status"""
+    class Meta:
+        model = QuestObjective
+        fields = ['is_completed']
+        widgets = {
+            'is_completed': forms.CheckboxInput(attrs={
+                'class': 'objective-checkbox'
+            })
         }
