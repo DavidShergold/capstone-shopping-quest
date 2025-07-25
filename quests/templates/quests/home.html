@@ -53,26 +53,69 @@
         .decorative-image {
             width: 100px;
             height: 100px;
-            background-image: url('{% static "quests/images/image.png" %}');
+            background-image: url('{% static "quests/images/image.png" %}?v=8');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             margin: 0 auto 30px auto;
             opacity: 0.8;
         }
+        
+        /* Responsive decorative corner - properly sized for different screens */
         .decorative-corner {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 360px;
-            height: 360px;
-            background-image: url('{% static "quests/images/image.png" %}');
+            width: 240px;
+            height: 240px;
+            background-image: url('{% static "quests/images/image.png" %}?v=8');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            opacity: 0.8;
-            z-index: 100;
+            opacity: 0.7;
+            z-index: -1; /* Behind all content */
             pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        /* Tablet screens - medium size */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .decorative-corner {
+                width: 360px;
+                height: 360px;
+                bottom: 15px;
+                right: 15px;
+                opacity: 0.6;
+            }
+        }
+        
+        /* Desktop screens - larger size */
+        @media (min-width: 1025px) {
+            .decorative-corner {
+                width: 480px;
+                height: 480px;
+                bottom: 20px;
+                right: 20px;
+                opacity: 0.8;
+            }
+        }
+        
+        /* Mobile screens - hide on very small screens */
+        @media (max-width: 480px) {
+            .decorative-corner {
+                display: none;
+            }
+        }
+        
+        /* Medium mobile screens - very small and subtle */
+        @media (min-width: 481px) and (max-width: 767px) {
+            .decorative-corner {
+                width: 160px;
+                height: 160px;
+                bottom: 10px;
+                right: 10px;
+                opacity: 0.4;
+            }
         }
         .quest-btn {
             background: linear-gradient(135deg, #27ae60, #229954);
@@ -90,18 +133,10 @@
             background: linear-gradient(135deg, #229954, #1e8449);
         }
         .decorative-corner {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-image: url('{% static "quests/images/image" %}');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            opacity: 0.7;
-            z-index: 100;
-            pointer-events: none;
+            /* Also disable the second definition - causing mobile overlay issues */
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
     </style>
 </head>
