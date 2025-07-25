@@ -11,7 +11,7 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-image: url('{% static "quests/images/background" %}');
+            background-image: url('{% static "quests/images/background.png" %}');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -19,37 +19,22 @@
             min-height: 100vh;
         }
         .header {
-            background-image: url('{% static "quests/images/header" %}');
-            background-size: cover;
+            background-image: url('{% static "quests/images/header.png" %}');
+            background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             color: white;
-            padding: 40px 20px;
+            padding: 0;
             border-radius: 8px;
             margin-bottom: 20px;
             text-align: center;
             position: relative;
-            min-height: 120px;
+            min-height: 200px;
+            height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
-            z-index: 1;
-        }
-        .header > * {
-            position: relative;
-            z-index: 2;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
         .form-container {
             background-color: white;
@@ -115,13 +100,13 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 60px;
-            height: 60px;
-            background-image: url('{% static "quests/images/image" %}');
+            width: 360px;
+            height: 360px;
+            background-image: url('{% static "quests/images/image.png" %}');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            opacity: 0.7;
+            opacity: 0.8;
             z-index: 100;
             pointer-events: none;
         }
@@ -129,9 +114,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>🗡️ Shopping Quest</h1>
-        <h2>🏪 Create New Shop Quest</h2>
-        <p>Add a new shopping destination to your adventure!</p>
+        <!-- Header image background only -->
     </div>
 
     <div class="form-container">
