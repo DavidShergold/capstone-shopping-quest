@@ -85,19 +85,21 @@ class Shop(models.Model):
     
     def check_completion_bonus(self):
         """Check if all objectives are complete and award bonus XP"""
+        print(f"DEBUG - check_completion_bonus called for shop: {self.name}")
         objectives = self.questobjective_set.all()
         if objectives.exists() and all(obj.is_completed for obj in objectives):
             if not self.completion_bonus_awarded:
+                print(f"DEBUG - Awarding 30 XP bonus for shop: {self.name}")
                 profile = self.adventurer.userprofile
                 levels_gained = profile.add_experience(30)  # 30 XP bonus for completing all objectives
                 self.completion_bonus_awarded = True
                 self.save()
+                print(f"DEBUG - Bonus awarded, levels gained: {levels_gained}")
                 return levels_gained
+            else:
+                print(f"DEBUG - Bonus already awarded for shop: {self.name}")
         else:
-            # Reset completion bonus if not all objectives are complete
-            if self.completion_bonus_awarded:
-                self.completion_bonus_awarded = False
-                self.save()
+            print(f"DEBUG - Not all objectives complete for shop: {self.name}")
         return 0
 
 

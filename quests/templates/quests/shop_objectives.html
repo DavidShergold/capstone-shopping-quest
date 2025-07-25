@@ -239,6 +239,19 @@
         </div>
     </div>
 
+    {% if can_complete_quest %}
+        <div class="quest-completion" style="background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; padding: 20px; margin-bottom: 20px; text-align: center;">
+            <h3 style="color: #155724; margin: 0 0 15px 0;">🎉 Quest Ready for Completion!</h3>
+            <p style="color: #155724; margin: 0 0 15px 0;">All objectives completed! Click below to complete this quest and earn bonus XP.</p>
+            <button id="completeQuestBtn" class="complete-quest-btn" 
+                    style="background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: transform 0.2s ease;"
+                    onmouseover="this.style.transform='translateY(-2px)'" 
+                    onmouseout="this.style.transform='translateY(0)'">
+                ⚡ Complete Quest ⚡
+            </button>
+        </div>
+    {% endif %}
+
     <div class="objectives-section">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h3>🎯 Quest Objectives</h3>
@@ -254,10 +267,12 @@
                            onchange="toggleObjective({{ objective.id }}, this)">
                     
                     <div class="objective-content {% if objective.is_completed %}objective-completed{% endif %}">
-                        <div class="objective-name">{{ objective.name }}</div>
-                        {% if objective.quantity > 1 %}
-                            <div class="objective-quantity">Quantity: {{ objective.quantity }}</div>
-                        {% endif %}
+                        <div class="objective-name">
+                            {% if objective.quantity > 1 %}
+                                <span style="background-color: #3498db; color: white; padding: 2px 6px; border-radius: 12px; font-size: 0.8em; margin-right: 8px;">{{ objective.quantity }}x</span>
+                            {% endif %}
+                            {{ objective.name }}
+                        </div>
                         {% if objective.notes %}
                             <div class="objective-notes">{{ objective.notes }}</div>
                         {% endif %}
@@ -285,6 +300,17 @@
     </div>
 
     <script>
+    // Test if JavaScript is working at all
+    console.log('JavaScript loaded successfully');
+    
+    // Add global error handler
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript Error:', e.error);
+        console.error('Error message:', e.message);
+        console.error('Error filename:', e.filename);
+        console.error('Error line:', e.lineno);
+    });
+    
     function toggleObjective(objectiveId, checkbox) {
         fetch(`/objective/${objectiveId}/toggle/`, {
             method: 'POST',
@@ -360,15 +386,17 @@
     }
     
     function updatePlayerStats(data) {
+        console.log('updatePlayerStats called with data:', data);
+        
         // Update level if available
         const levelBadge = document.querySelector('.level-badge');
-        if (levelBadge) {
+        if (levelBadge && data.current_level) {
             levelBadge.textContent = `⭐ Level ${data.current_level}`;
         }
         
         // Update XP display
         const expInfo = document.querySelector('.exp-info');
-        if (expInfo) {
+        if (expInfo && data.current_experience !== undefined && data.experience_to_next !== undefined) {
             expInfo.innerHTML = `
                 <div>${data.current_experience} XP</div>
                 <div style="font-size: 0.8em;">${data.experience_to_next} XP to next level</div>
@@ -377,16 +405,171 @@
         
         // Update progress bar
         const expBar = document.getElementById('playerExpBar');
-        if (expBar) {
+        if (expBar && data.level_progress !== undefined) {
             expBar.style.width = `${data.level_progress}%`;
         }
         
         // Update progress text
         const expText = document.getElementById('playerExpText');
-        if (expText) {
+        if (expText && data.current_level !== undefined && data.level_progress !== undefined) {
             expText.textContent = `Progress to Level ${data.current_level + 1}: ${data.level_progress.toFixed(1)}%`;
         }
     }
+    
+    // Complete Quest functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM Content Loaded - Complete Quest setup starting');
+        
+        const completeBtn = document.getElementById('completeQuestBtn');
+        console.log('Complete Quest Button found:', completeBtn);
+        
+        if (completeBtn) {
+            console.log('Adding click event listener to Complete Quest button');
+            completeBtn.addEventListener('click', function() {
+                console.log('Complete Quest button clicked!');
+                completeQuest();
+            });
+        } else {
+            console.log('Complete Quest button not found in DOM');
+        }
+    });
+    
+    function completeQuest() {
+        const shopId = {{ selected_shop.id }};
+        console.log('CompleteQuest: Starting request for shop', shopId);
+        
+        fetch(`/shop/${shopId}/complete/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+        })
+        .then(response => {
+            console.log('CompleteQuest: Response status:', response.status);
+            console.log('CompleteQuest: Response ok:', response.ok);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return response.json();
+        })
+        .then(data => {
+            console.log('CompleteQuest: Parsed data:', data);
+            if (data.success) {
+                console.log('CompleteQuest: Success, showing modal');
+                showCongratulationsModal(data);
+            } else {
+                console.log('CompleteQuest: Server returned error:', data.error);
+                alert(`Error completing quest: ${data.error || 'Please try again.'}`);
+            }
+        })
+        .catch(error => {
+            console.error('CompleteQuest: Fetch error:', error);
+            alert('Error completing quest. Please try again.');
+        });
+    }
+    
+    function showCongratulationsModal(data) {
+        // Create modal HTML
+        const modalHTML = `
+            <div id="congratsModal" style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 2000;
+            ">
+                <div style="
+                    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+                    border-radius: 20px;
+                    padding: 40px;
+                    text-align: center;
+                    max-width: 500px;
+                    margin: 20px;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                    animation: celebrationPulse 2s infinite;
+                ">
+                    <div style="font-size: 4em; margin-bottom: 20px;">🎉</div>
+                    <h2 style="color: #28a745; margin: 0 0 20px 0; font-size: 2.5em;">CONGRATULATIONS!</h2>
+                    <h3 style="color: #2c3e50; margin: 0 0 20px 0;">Quest "${data.shop_name}" Complete!</h3>
+                    
+                    <div style="background-color: white; border-radius: 10px; padding: 20px; margin: 20px 0; border: 2px solid #28a745;">
+                        <div style="margin-bottom: 10px;">
+                            <strong>📋 Objectives Completed:</strong> ${data.total_objectives}
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <strong>📦 Total Items:</strong> ${data.total_items}
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <strong>⚡ Base XP:</strong> ${data.base_xp}
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <strong>🏆 Completion Bonus:</strong> ${data.bonus_xp} XP
+                        </div>
+                        <div style="border-top: 2px solid #28a745; padding-top: 10px; margin-top: 15px;">
+                            <strong style="font-size: 1.2em; color: #28a745;">🎯 Total XP Earned: ${data.total_xp}</strong>
+                        </div>
+                        ${data.levels_gained > 0 ? `
+                            <div style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; padding: 15px; border-radius: 10px; margin-top: 15px;">
+                                <strong style="font-size: 1.3em;">🌟 LEVEL UP! 🌟</strong><br>
+                                <span style="font-size: 1.1em;">You gained ${data.levels_gained} level${data.levels_gained > 1 ? 's' : ''}!</span><br>
+                                <span>You are now Level ${data.current_level}!</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <button onclick="closeCongratulationsModal()" style="
+                        background: linear-gradient(135deg, #007bff, #0056b3);
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 8px;
+                        font-size: 1.1em;
+                        font-weight: bold;
+                        cursor: pointer;
+                        margin-top: 20px;
+                        transition: transform 0.2s ease;
+                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        🗡️ Continue Adventure
+                    </button>
+                </div>
+            </div>
+            
+            <style>
+                @keyframes celebrationPulse {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                }
+            </style>
+        `;
+        
+        // Add modal to page
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        
+        // Update player stats
+        updatePlayerStats(data);
+    }
+    
+    function closeCongratulationsModal() {
+        const modal = document.getElementById('congratsModal');
+        if (modal) {
+            modal.remove();
+        }
+        
+        // Reload page to refresh the UI and remove the Complete Quest button
+        setTimeout(() => {
+            location.reload();
+        }, 500);
+    }
+    
     </script>
     
     {% csrf_token %}

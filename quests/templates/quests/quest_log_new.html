@@ -269,42 +269,54 @@
         </script>
     {% endif %}
 
-    {% if items %}
+    {% if shops_with_objectives %}
         <div class="quest-list">
-            {% for item in items %}
-                <div class="quest-item {% if item.is_completed %}completed{% endif %}">
-                    <div class="quest-title">{{ item.name }}</div>
+            {% for shop in shops_with_objectives %}
+                <div class="quest-item {% if shop.progress_percent == 100 %}completed{% endif %}">
+                    <div class="quest-title">
+                        <a href="{% url 'quests:shop_quest_log' shop.id %}" style="text-decoration: none; color: inherit;">
+                            🏪 {{ shop.name }}
+                        </a>
+                    </div>
                     <div class="quest-description">
-                        {% if item.shop %}
-                            🏪 Shop: {{ item.shop.name }}
-                        {% endif %}
-                        {% if item.category %}
-                            | 📂 Category: {{ item.category }}
-                        {% elif not item.shop %}
-                            📂 No category specified
-                        {% endif %}
-                    </div>
-                    <div class="quest-status {% if item.is_completed %}status-completed{% else %}status-active{% endif %}">
-                        {% if item.is_completed %}
-                            ✅ Completed
+                        {% if shop.total_items > 0 %}
+                            📦 {{ shop.completed_items }}/{{ shop.total_items }} items completed
+                            {% if shop.objective_count != shop.total_items %}
+                                ({{ shop.completed_objective_count }}/{{ shop.objective_count }} unique items)
+                            {% endif %}
                         {% else %}
-                            🎯 Active
+                            � No shopping items added yet
                         {% endif %}
                     </div>
+                    <div class="quest-status {% if shop.progress_percent == 100 %}status-completed{% else %}status-active{% endif %}">
+                        {% if shop.progress_percent == 100 %}
+                            ✅ Completed ({{ shop.progress_percent|floatformat:0 }}%)
+                        {% else %}
+                            🎯 {{ shop.progress_percent|floatformat:0 }}% Complete
+                        {% endif %}
+                    </div>
+                    {% if shop.total_items > 0 %}
+                        <div style="margin-top: 10px;">
+                            <div style="background-color: #e9ecef; border-radius: 10px; height: 8px; overflow: hidden;">
+                                <div style="background: linear-gradient(90deg, #28a745, #20c997); height: 100%; width: {{ shop.progress_percent }}%; transition: width 0.3s ease;"></div>
+                            </div>
+                        </div>
+                    {% endif %}
                     <div style="margin-top: 10px; color: #666; font-size: 0.9em;">
-                        📅 Created: {{ item.created_at|date:"M d, Y" }}
+                        🎯 <a href="{% url 'quests:shop_quest_log' shop.id %}" style="color: #3498db; text-decoration: none;">View & manage items</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
+    {% elif user.is_authenticated %}
+        <div class="no-quests">
+            <h3>No shops found!</h3>
+            <p>Create your first shop to start your shopping adventure!</p>
+        </div>
     {% else %}
         <div class="no-quests">
-            <h3>No quests found!</h3>
-            {% if selected_shop %}
-                <p>No quests found for {{ selected_shop.name }}. Start adding some shopping items!</p>
-            {% else %}
-                <p>Your adventure awaits... Start by adding your first quest!</p>
-            {% endif %}
+            <h3>Welcome to Shopping Quest!</h3>
+            <p>Your adventure awaits... Login to start adding shops and quests!</p>
         </div>
     {% endif %}
 
