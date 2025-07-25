@@ -15,18 +15,21 @@ Create your account and start your shopping adventure today!
 - ⭐ **Progressive Leveling**: Dynamic level system with visual progress tracking and requirements
 - 🏪 **Shop Management**: Organize quests by different shops with filtering and management tools
 - 👤 **User Accounts**: Complete registration and login system with secure authentication
-- 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
-- 🎮 **Real-time Updates**: AJAX-powered objective completion with instant XP notifications
-- 📊 **Progress Visualization**: Beautiful progress bars, level badges, and achievement tracking
+- 📱 **Responsive Design**: Fully responsive interface with adaptive decorative elements across all screen sizes
+- 🎮 **Real-time Updates**: AJAX-powered objective completion with instant XP notifications and congratulations modals
+- 📊 **Progress Visualization**: Beautiful progress bars, level badges, achievement tracking, and animated celebrations
+- 🎨 **Visual Polish**: Dynamic decorative corner images that scale responsively from mobile to desktop
+- 🔄 **Smart Caching**: Optimized static file serving with cache-busting for seamless updates
 
 ## 🛠️ Technology Stack
 
 - **Backend**: Django 5.2.4, Python 3.11
 - **Database**: PostgreSQL (production), SQLite (development)
-- **Frontend**: HTML5, CSS3, JavaScript (AJAX)
+- **Frontend**: HTML5, CSS3, JavaScript (AJAX), Responsive Media Queries
 - **Deployment**: Heroku with Gunicorn
-- **Static Files**: WhiteNoise for efficient static file serving
+- **Static Files**: WhiteNoise for efficient static file serving with cache-busting
 - **Database Tools**: pgAdmin for database management
+- **UI/UX**: Mobile-first responsive design with adaptive visual elements
 
 ## 📈 Game Mechanics
 
@@ -170,19 +173,37 @@ heroku run python manage.py createsuperuser
 
 1. **Register**: Create your account at the live demo link
 2. **Create Shops**: Add different stores where you shop (e.g., "Grocery Store", "Hardware Store")
-3. **Add Objectives**: Create shopping list items for each shop
-4. **Complete Quests**: Check off items as you shop to earn XP
-5. **Level Up**: Watch your progress bars fill and advance through levels
+3. **Add Objectives**: Create shopping list items for each shop with quantities and notes
+4. **Complete Quests**: Check off items as you shop to earn XP with real-time notifications
+5. **Level Up**: Watch your progress bars fill and advance through levels with celebration animations
 6. **Manage**: Use the shop filter and management tools to stay organized
+7. **Enjoy**: Experience responsive design that adapts beautifully to any device size
+
+### 🎨 Visual Experience
+- **Desktop (≥1025px)**: Large 480px decorative corner images with full opacity
+- **Tablet (768px-1024px)**: Medium 360px images with subtle transparency
+- **Mobile (481px-767px)**: Small 160px corner accents that don't interfere
+- **Small Mobile (≤480px)**: Clean interface with decorative elements hidden for optimal usability
+
+## 🎯 Recent Updates
+
+### Version 2.0 - Enhanced Visual Experience
+- ✨ **Responsive Decorative Elements**: Adaptive corner images that scale perfectly across all devices
+- 🎊 **Celebration Modals**: Full-screen congratulations with detailed XP breakdown and level-up animations
+- 📱 **Mobile-First Design**: Optimized touch interfaces with device-specific adaptations
+- 🔄 **Smart Caching**: Cache-busting system ensures users always see the latest visual updates
+- 🎨 **Progressive Enhancement**: Graceful degradation from rich desktop experience to clean mobile interface
 
 ## 🧪 Testing Features
 
 - **User Registration**: Email-required account creation with automatic login
 - **XP System**: Complete objectives to test the 10 XP + 30 XP bonus system
-- **Shop Management**: Create, filter, and delete shops
-- **Real-time Updates**: Experience AJAX notifications and progress updates
-- **Responsive Design**: Test on different screen sizes
-- **Data Persistence**: All progress is saved to PostgreSQL database
+- **Shop Management**: Create, filter, and delete shops with full CRUD operations
+- **Real-time Updates**: Experience AJAX notifications, progress updates, and celebration modals
+- **Responsive Design**: Test adaptive layouts and decorative elements on different screen sizes
+- **Mobile Optimization**: Verify touch-friendly interface and mobile-specific adaptations
+- **Data Persistence**: All progress is saved to PostgreSQL database with transaction safety
+- **Visual Feedback**: Interactive elements with hover effects, animations, and dynamic sizing
 
 ## 🤝 Contributing
 
