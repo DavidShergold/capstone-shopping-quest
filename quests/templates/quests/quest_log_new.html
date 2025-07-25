@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,15 +11,30 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-image: url('{% static "quests/images/background.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
         }
         .header {
-            background-color: #2c3e50;
+            background-image: url('{% static "quests/images/header.png" %}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
             color: white;
-            padding: 20px;
+            padding: 0;
             border-radius: 8px;
             margin-bottom: 20px;
             text-align: center;
+            position: relative;
+            min-height: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .quest-item {
             background-color: white;
@@ -187,19 +203,35 @@
             font-size: 0.9em;
             color: #666;
         }
+        .decorative-image {
+            width: 80px;
+            height: 80px;
+            background-image: url('{% static "quests/images/image.png" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0 auto 20px auto;
+            opacity: 0.8;
+        }
+        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 360px;
+            height: 360px;
+            background-image: url('{% static "quests/images/image.png" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.8;
+            z-index: 100;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🗡️ Shopping Quest</h1>
-        {% if user.is_authenticated %}
-            <p>Welcome, {{ user.username }}!</p>
-            {% if selected_shop %}
-                <p style="color: #3498db;">📍 Viewing quests for: {{ selected_shop.name }}</p>
-            {% endif %}
-        {% else %}
-            <p>Welcome, Adventurer! <a href="{% url 'login' %}" style="color: #3498db;">Login</a> to track your quests.</p>
-        {% endif %}
+        <!-- Header image background only -->
     </div>
 
     {% if user.is_authenticated and profile %}
@@ -310,8 +342,8 @@
         </div>
     {% elif user.is_authenticated %}
         <div class="no-quests">
-            <h3>No shops found!</h3>
-            <p>Create your first shop to start your shopping adventure!</p>
+            <h3>No Quests Found!</h3>
+            <p>Create your first quest to start your shopping adventure!</p>
         </div>
     {% else %}
         <div class="no-quests">
@@ -336,5 +368,8 @@
         <button type="submit">Log Out</button>
     </form>
 {% endif %}
+
+    <!-- Decorative corner image -->
+    <div class="decorative-corner"></div>
 </body>
 </html>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,15 +11,30 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-image: url('{% static "quests/images/background.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
         }
         .header {
-            background-color: #2c3e50;
+            background-image: url('{% static "quests/images/header.png" %}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
             color: white;
-            padding: 20px;
+            padding: 0;
             border-radius: 8px;
             margin-bottom: 20px;
             text-align: center;
+            position: relative;
+            min-height: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .shop-info {
             background-color: white;
@@ -194,13 +210,35 @@
         .notification.level-up {
             background-color: #f39c12;
         }
+        .decorative-image {
+            width: 80px;
+            height: 80px;
+            background-image: url('{% static "quests/images/image.png" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0 auto 20px auto;
+            opacity: 0.8;
+        }
+        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 360px;
+            height: 360px;
+            background-image: url('{% static "quests/images/image.png" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.8;
+            z-index: 100;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🗡️ Shopping Quest</h1>
-        <h2>🏪 {{ selected_shop.name }}</h2>
-        <p>Quest Objectives</p>
+        <!-- Header image background only -->
     </div>
 
     {% if profile %}
@@ -241,6 +279,7 @@
 
     {% if can_complete_quest %}
         <div class="quest-completion" style="background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; padding: 20px; margin-bottom: 20px; text-align: center;">
+            <div class="decorative-image"></div>
             <h3 style="color: #155724; margin: 0 0 15px 0;">🎉 Quest Ready for Completion!</h3>
             <p style="color: #155724; margin: 0 0 15px 0;">All objectives completed! Click below to complete this quest and earn bonus XP.</p>
             <button id="completeQuestBtn" class="complete-quest-btn" 
@@ -297,6 +336,9 @@
     <div style="text-align: center;">
         <a href="{% url 'quests:quest_log' %}" class="back-btn">← Back to Quest Log</a>
     </div>
+
+    <!-- Decorative corner image -->
+    <div class="decorative-corner"></div>
 
     <script>
     // Test if JavaScript is working at all

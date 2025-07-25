@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,11 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-image: url('{% static "quests/images/background" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             min-height: 100vh;
         }
         .register-container {
@@ -111,6 +116,20 @@
         }
         .login-link a:hover {
             text-decoration: underline;
+        }
+        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-image: url('{% static "quests/images/image" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.7;
+            z-index: 100;
+            pointer-events: none;
         }
         .features {
             display: grid;
@@ -260,5 +279,8 @@
             <p>Already have an account? <a href="{% url 'login' %}">Login to continue your quest</a></p>
         </div>
     </div>
+
+    <!-- Decorative corner image -->
+    <div class="decorative-corner"></div>
 </body>
 </html>

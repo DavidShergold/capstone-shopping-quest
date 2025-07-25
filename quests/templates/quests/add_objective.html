@@ -1,8 +1,22 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            background-image: url('{% static "quests/images/image.png" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.8;
+            z-index: 100;
+            pointer-events: none;
+        }t" content="width=device-width, initial-scale=1.0">
     <title>Add Objective - {{ shop.name }}</title>
     <style>
         body {
@@ -10,15 +24,30 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-image: url('{% static "quests/images/background.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
         }
         .header {
-            background-color: #2c3e50;
+            background-image: url('{% static "quests/images/header.png" %}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
             color: white;
-            padding: 20px;
+            padding: 0;
             border-radius: 8px;
             margin-bottom: 20px;
             text-align: center;
+            position: relative;
+            min-height: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .form-container {
             background-color: white;
@@ -77,16 +106,25 @@
         .cancel-btn:hover {
             background-color: #5a6268;
         }
+        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 360px;
+            height: 360px;
+            background-image: url('{% static "quests/images/image.png" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.8;
+            z-index: 100;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🗡️ Shopping Quest</h1>
-        <h2>🏪 {{ shop.name }}</h2>
-        <p>Add New Quest Objective</p>
-        <div style="background-color: rgba(255,255,255,0.2); padding: 10px; border-radius: 5px; margin-top: 10px;">
-            <small>💡 Complete objectives to earn 10 XP each! Complete all objectives in a shop for a 30 XP bonus!</small>
-        </div>
+        <!-- Header image background only -->
     </div>
 
     <div class="form-container">
@@ -114,5 +152,8 @@
             </div>
         </form>
     </div>
+
+    <!-- Decorative corner image -->
+    <div class="decorative-corner"></div>
 </body>
 </html>

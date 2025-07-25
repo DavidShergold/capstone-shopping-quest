@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,11 @@
             max-width: 500px;
             margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-image: url('{% static "quests/images/background" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             min-height: 100vh;
         }
         .login-container {
@@ -86,6 +91,20 @@
         }
         .register-link a:hover {
             text-decoration: underline;
+        }
+        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-image: url('{% static "quests/images/image" %}');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.7;
+            z-index: 100;
+            pointer-events: none;
         }
         .messages {
             margin-bottom: 20px;
@@ -163,5 +182,8 @@
             <p>New to Shopping Quest? <a href="{% url 'quests:register' %}">🚀 Start your adventure!</a></p>
         </div>
     </div>
+
+    <!-- Decorative corner image -->
+    <div class="decorative-corner"></div>
 </body>
 </html>
