@@ -255,7 +255,7 @@
     <div class="objectives-section">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
             <h3>🎯 Quest Objectives</h3>
-            <a href="{% url 'quests:add_objective' selected_shop.id %}" class="add-objective-btn">➕ Add Item</a>
+            <a href="{% url 'quests:add_objective' selected_shop.id %}" class="add-objective-btn">➕ Add Objective</a>
         </div>
 
         {% if objectives %}
@@ -296,7 +296,6 @@
 
     <div style="text-align: center;">
         <a href="{% url 'quests:quest_log' %}" class="back-btn">← Back to Quest Log</a>
-        <a href="{% url 'quests:add_objective' selected_shop.id %}" class="add-objective-btn">➕ Add Another Item</a>
     </div>
 
     <script>

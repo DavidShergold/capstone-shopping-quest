@@ -25,7 +25,8 @@ def register(request):
 def quest_log(request):
     if request.user.is_authenticated:
         items = QuestLog.objects.filter(adventurer=request.user)
-        shops = Shop.objects.filter(adventurer=request.user)
+        # Only show shops where the quest is not yet completed
+        shops = Shop.objects.filter(adventurer=request.user, completion_bonus_awarded=False)
         profile = request.user.userprofile
         
         # Add objective information to shops
