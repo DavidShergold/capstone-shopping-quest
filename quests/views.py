@@ -149,6 +149,14 @@ def toggle_objective(request, objective_id):
         # Get updated profile info
         profile = request.user.userprofile
         
+        # Calculate updated progress for the shop
+        shop = objective.shop
+        all_objectives = QuestObjective.objects.filter(adventurer=request.user, shop=shop)
+        total_objectives = all_objectives.count()
+        completed_objectives = all_objectives.filter(is_completed=True).count()
+        progress_percentage = (completed_objectives / total_objectives * 100) if total_objectives > 0 else 0
+        can_complete_quest = total_objectives > 0 and completed_objectives == total_objectives and not shop.completion_bonus_awarded
+        
         return JsonResponse({
             'success': True, 
             'completed': objective.is_completed,
@@ -157,7 +165,13 @@ def toggle_objective(request, objective_id):
             'current_level': profile.level,
             'current_experience': profile.experience,
             'experience_to_next': profile.experience_to_next_level,
-            'level_progress': profile.current_level_progress
+            'level_progress': profile.current_level_progress,
+            'progress_info': {
+                'total_objectives': total_objectives,
+                'completed_objectives': completed_objectives,
+                'progress_percentage': progress_percentage,
+                'can_complete_quest': can_complete_quest
+            }
         })
     return JsonResponse({'success': False})
 

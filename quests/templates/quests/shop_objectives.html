@@ -39,34 +39,44 @@
             align-items: center;
         }
         .shop-info {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95));
+            border: 2px solid rgba(52, 152, 219, 0.3);
+            border-radius: 15px;
+            padding: 25px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
         }
         .objectives-section {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95));
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-radius: 15px;
+            padding: 25px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
         }
         .objective-item {
             display: flex;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(233, 236, 239, 0.5);
+            transition: background-color 0.3s ease;
+        }
+        .objective-item:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+            border-radius: 8px;
+            margin: 0 -10px;
+            padding: 15px 10px;
         }
         .objective-item:last-child {
             border-bottom: none;
         }
         .objective-checkbox {
             margin-right: 15px;
-            transform: scale(1.2);
+            transform: scale(1.3);
             cursor: pointer;
+            accent-color: #28a745;
         }
         .objective-content {
             flex-grow: 1;
@@ -94,40 +104,58 @@
             gap: 5px;
         }
         .delete-btn {
-            background-color: #e74c3c;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
             border: none;
-            padding: 4px 8px;
-            border-radius: 3px;
+            padding: 8px 12px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 0.8em;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .delete-btn:hover {
-            background-color: #c0392b;
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
         }
         .add-objective-btn {
-            background-color: #27ae60;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 12px;
             display: inline-block;
             margin: 10px 0;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(39, 174, 96, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
         .add-objective-btn:hover {
-            background-color: #229954;
+            background: linear-gradient(135deg, #229954, #27ae60);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
         }
         .back-btn {
-            background-color: #6c757d;
+            background: linear-gradient(135deg, #6c757d, #5a6268);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 12px;
             display: inline-block;
             margin-right: 10px;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
         .back-btn:hover {
-            background-color: #5a6268;
+            background: linear-gradient(135deg, #5a6268, #495057);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
         }
         .no-objectives {
             text-align: center;
@@ -136,24 +164,28 @@
             font-style: italic;
         }
         .progress-bar {
-            background-color: #e9ecef;
-            border-radius: 10px;
-            height: 20px;
-            margin: 10px 0;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            border-radius: 15px;
+            height: 25px;
+            margin: 15px 0;
             overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(108, 117, 125, 0.2);
         }
         .progress-fill {
-            background-color: #28a745;
+            background: linear-gradient(135deg, #28a745, #20c997);
             height: 100%;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
         }
         .player-stats {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95));
+            border: 2px solid rgba(243, 156, 18, 0.3);
+            border-radius: 15px;
+            padding: 25px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
         }
         .level-display {
             display: flex;
@@ -162,28 +194,33 @@
             margin-bottom: 15px;
         }
         .level-badge {
-            background-color: #f39c12;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             font-weight: bold;
             font-size: 1.1em;
+            box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
         .exp-info {
             text-align: right;
             color: #666;
         }
         .exp-bar {
-            background-color: #e9ecef;
-            border-radius: 10px;
-            height: 20px;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            border-radius: 15px;
+            height: 25px;
             overflow: hidden;
-            margin: 10px 0;
+            margin: 15px 0;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid rgba(243, 156, 18, 0.2);
         }
         .exp-fill {
-            background: linear-gradient(90deg, #28a745, #20c997);
+            background: linear-gradient(90deg, #f39c12, #e67e22, #d35400);
             height: 100%;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 10px rgba(243, 156, 18, 0.4);
         }
         .exp-text {
             text-align: center;
@@ -394,8 +431,8 @@
                     updatePlayerStats(data);
                 }
                 
-                // Reload to update progress bar
-                setTimeout(() => location.reload(), 2000);
+                // Update progress bar manually instead of reloading
+                updateProgressDisplay(data);
             } else {
                 // Revert checkbox if failed
                 checkbox.checked = !checkbox.checked;
@@ -456,6 +493,47 @@
         const expText = document.getElementById('playerExpText');
         if (expText && data.current_level !== undefined && data.level_progress !== undefined) {
             expText.textContent = `Progress to Level ${data.current_level + 1}: ${data.level_progress.toFixed(1)}%`;
+        }
+    }
+    
+    function updateProgressDisplay(data) {
+        // Update the shopping list progress display
+        if (data.progress_info) {
+            const progressFill = document.querySelector('.shop-info .progress-fill');
+            const progressText = document.querySelector('.shop-info p');
+            
+            if (progressFill && data.progress_info.progress_percentage !== undefined) {
+                progressFill.style.width = `${data.progress_info.progress_percentage}%`;
+            }
+            
+            if (progressText && data.progress_info.completed_objectives !== undefined && data.progress_info.total_objectives !== undefined) {
+                if (data.progress_info.total_objectives > 0) {
+                    progressText.textContent = `${data.progress_info.completed_objectives} of ${data.progress_info.total_objectives} items completed`;
+                } else {
+                    progressText.textContent = "No objectives added yet";
+                }
+            }
+            
+            // Check if quest can now be completed
+            if (data.progress_info.can_complete_quest && !document.querySelector('.quest-completion')) {
+                // Add the completion section if all objectives are now complete
+                const shopInfo = document.querySelector('.shop-info');
+                const completionHTML = `
+                    <div class="quest-completion" style="background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                        <div class="decorative-image"></div>
+                        <h3 style="color: #155724; margin: 0 0 15px 0;">🎉 Quest Ready for Completion!</h3>
+                        <p style="color: #155724; margin: 0 0 15px 0;">All objectives completed! Click below to complete this quest and earn bonus XP.</p>
+                        <button id="completeQuestBtn" class="complete-quest-btn" 
+                                style="background: linear-gradient(135deg, #28a745, #20c997); color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: transform 0.2s ease;"
+                                onmouseover="this.style.transform='translateY(-2px)'" 
+                                onmouseout="this.style.transform='translateY(0)'"
+                                onclick="completeQuest()">
+                            ⚡ Complete Quest ⚡
+                        </button>
+                    </div>
+                `;
+                shopInfo.insertAdjacentHTML('afterend', completionHTML);
+            }
         }
     }
     
