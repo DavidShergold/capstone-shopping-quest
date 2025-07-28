@@ -107,7 +107,13 @@
         }
         .objective-actions {
             display: flex;
+            align-items: center;
             gap: 5px;
+        }
+        .objective-actions form {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
         }
         .delete-btn {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
@@ -121,6 +127,11 @@
             box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            line-height: 1;
         }
         .delete-btn:hover {
             background: linear-gradient(135deg, #c0392b, #a93226);
@@ -140,7 +151,11 @@
             transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            line-height: 1;
         }
         .edit-btn:hover {
             background: linear-gradient(135deg, #2980b9, #21618c);

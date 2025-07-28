@@ -25,10 +25,16 @@
             min-height: 100vh;
         }
         .register-container {
-            background-color: white;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+                url('{% static "quests/images/stone.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 2px solid #666;
             border-radius: 12px;
             padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             margin-top: 20px;
         }
         .header {
@@ -64,14 +70,18 @@
             margin-bottom: 8px;
             display: block;
             color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
         }
         .form-control {
             width: 100%;
             padding: 12px;
-            border: 2px solid #ddd;
+            border: 2px solid #666;
             border-radius: 8px;
             font-size: 1em;
             box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.95);
+            font-family: 'Metamorphous', cursive;
+        }
             transition: border-color 0.3s ease;
         }
         .form-control:focus {

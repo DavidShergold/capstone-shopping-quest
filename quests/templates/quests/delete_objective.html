@@ -45,11 +45,16 @@
             align-items: center;
         }
         .delete-form {
-            background-color: white;
-            border: 1px solid #e74c3c;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+                url('{% static "quests/images/stone.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 2px solid #e74c3c;
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
         .warning {
             background-color: #f8d7da;

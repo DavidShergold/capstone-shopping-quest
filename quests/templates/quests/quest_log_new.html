@@ -45,12 +45,17 @@
             align-items: center;
         }
         .quest-item {
-            background-color: white;
-            border: 1px solid #ddd;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+                url('{% static "quests/images/stone.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 2px solid #666;
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
         .quest-item.completed {
             background-color: #d4edda;
@@ -156,6 +161,11 @@
             font-weight: bold;
             color: #2c3e50;
         }
+        .shop-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
         .delete-shop-btn {
             background-color: #e74c3c;
             color: white;
@@ -163,7 +173,12 @@
             text-decoration: none;
             border-radius: 3px;
             font-size: 0.8em;
-            margin-left: 5px;
+            margin-left: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            line-height: 1;
         }
         .delete-shop-btn:hover {
             background-color: #c0392b;
@@ -175,7 +190,12 @@
             text-decoration: none;
             border-radius: 3px;
             font-size: 0.8em;
-            margin-left: 5px;
+            margin-left: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            line-height: 1;
         }
         .edit-shop-btn:hover {
             background-color: #2980b9;
@@ -416,11 +436,13 @@
                 {% for shop in shops %}
                     <div class="shop-item">
                         <span class="shop-name">🏪 {{ shop.name }}</span>
-                        <a href="{% url 'quests:edit_shop' shop.id %}" class="edit-shop-btn">✏️ Edit</a>
-                        <a href="{% url 'quests:delete_shop' shop.id %}" class="delete-shop-btn" 
-                           onclick="return confirm('Are you sure you want to delete {{ shop.name }}?')">
-                            🗑️ Delete
-                        </a>
+                        <div class="shop-actions">
+                            <a href="{% url 'quests:edit_shop' shop.id %}" class="edit-shop-btn">✏️ Edit</a>
+                            <a href="{% url 'quests:delete_shop' shop.id %}" class="delete-shop-btn" 
+                               onclick="return confirm('Are you sure you want to delete {{ shop.name }}?')">
+                                🗑️ Delete
+                            </a>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
