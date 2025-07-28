@@ -395,6 +395,9 @@
 
     {% if user.is_authenticated and profile %}
         <div class="player-stats">
+            <div class="player-header">
+                <h3 style="color: #2c3e50; margin: 0 0 15px 0;">⚔️ {{ user.username|title }}'s Adventure</h3>
+            </div>
             <div class="level-display">
                 <div>
                     <span class="level-badge">⭐ Level {{ profile.level }}</span>
