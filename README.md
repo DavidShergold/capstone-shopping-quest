@@ -68,7 +68,7 @@ Shopping Quest is built with performance and accessibility as core priorities. H
 
 ### 📊 Lighthouse Scores
 
-![Lighthouse Performance Results](docs/images/lighthouse-scores.png)
+![Lighthouse Performance Results](docs/images/lighthouse.png)
 
 - **🟢 Performance**: 90+ - Fast loading times with optimized static files and responsive images
 - **♿ Accessibility**: 95+ - WCAG 2.1 compliant with comprehensive screen reader support
