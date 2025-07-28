@@ -386,41 +386,78 @@
             border-radius: 50%;
             border: 2px solid #34495e;
         }
+        
+        /* Screen reader only text */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Focus visible improvements */
+        .edit-shop-btn:focus,
+        .delete-shop-btn:focus,
+        .manage-shops-btn:focus,
+        .new-quest-button:focus,
+        .add-quest-btn:focus,
+        .shop-dropdown:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+        
+        /* Improve contrast for better accessibility */
+        .quest-description {
+            color: #4a4a4a; /* Darker for better contrast */
+        }
     </style>
 </head>
 <body>
-    <div class="header">
+    <header class="header" role="banner" aria-label="Shopping Quest header">
+        <h1 class="sr-only">Shopping Quest - Quest Log</h1>
         <!-- Header image background only -->
-    </div>
+    </header>
+
+    <main role="main">
 
     {% if user.is_authenticated and profile %}
-        <div class="player-stats">
+        <section class="player-stats" aria-labelledby="player-stats-heading">
             <div class="player-header">
-                <h3 style="color: #2c3e50; margin: 0 0 15px 0;">⚔️ {{ user.username|title }}'s Adventure</h3>
+                <h2 id="player-stats-heading" style="color: #2c3e50; margin: 0 0 15px 0;">⚔️ {{ user.username|title }}'s Adventure</h2>
             </div>
             <div class="level-display">
                 <div>
-                    <span class="level-badge">⭐ Level {{ profile.level }}</span>
-                    <a href="{% url 'quests:edit_profile' %}" class="edit-shop-btn" style="margin-left: 10px;">👤 Edit Profile</a>
+                    <span class="level-badge" role="status" aria-label="Current level {{ profile.level }}">⭐ Level {{ profile.level }}</span>
+                    <a href="{% url 'quests:edit_profile' %}" class="edit-shop-btn" style="margin-left: 10px;" aria-label="Edit your profile">👤 Edit Profile</a>
                 </div>
                 <div class="exp-info">
-                    <div>{{ profile.experience }} XP</div>
+                    <div aria-label="Current experience points">{{ profile.experience }} XP</div>
                     <div style="font-size: 0.8em;">{{ profile.experience_to_next_level }} XP to next level</div>
                 </div>
             </div>
-            <div class="exp-bar">
+            <div class="exp-bar" role="progressbar" 
+                 aria-valuenow="{{ profile.current_level_progress }}" 
+                 aria-valuemin="0" 
+                 aria-valuemax="100"
+                 aria-label="Experience progress: {{ profile.current_level_progress|floatformat:1 }}% to next level">
                 <div class="exp-fill" style="width: {{ profile.current_level_progress }}%"></div>
             </div>
             <div class="exp-text">
                 Progress to Level {{ profile.level|add:1 }}: {{ profile.current_level_progress|floatformat:1 }}%
             </div>
-        </div>
+        </section>
     {% endif %}
 
     {% if user.is_authenticated and shops %}
-        <div class="shop-filter">
-            <div class="filter-label">🏪 Filter by Shop:</div>
-            <select class="shop-dropdown" onchange="location.href=this.value">
+        <section class="shop-filter" aria-labelledby="filter-heading">
+            <h2 id="filter-heading" class="filter-label">🏪 Filter by Shop:</h2>
+            <label for="shop-dropdown" class="sr-only">Select a shop to filter quests</label>
+            <select id="shop-dropdown" class="shop-dropdown" onchange="location.href=this.value" aria-describedby="filter-help">
                 <option value="{% url 'quests:quest_log' %}" {% if not selected_shop %}selected{% endif %}>All Quests</option>
                 {% for shop in shops %}
                     <option value="{% url 'quests:shop_quest_log' shop.id %}" 
@@ -429,27 +466,29 @@
                     </option>
                 {% endfor %}
             </select>
+            <div id="filter-help" class="sr-only">Use this dropdown to filter quests by specific shops</div>
             
             <div class="shop-management">
-                <button onclick="toggleShopList()" class="manage-shops-btn" id="toggleBtn">🛠️ Manage Shops</button>
+                <button onclick="toggleShopList()" class="manage-shops-btn" id="toggleBtn" aria-expanded="false" aria-controls="shopList">🛠️ Manage Shops</button>
             </div>
             
-            <div class="shop-list" id="shopList" style="display: none;">
-                <h4>Your Shops:</h4>
+            <div class="shop-list" id="shopList" style="display: none;" aria-labelledby="shop-list-heading">
+                <h3 id="shop-list-heading">Your Shops:</h3>
                 {% for shop in shops %}
                     <div class="shop-item">
                         <span class="shop-name">🏪 {{ shop.name }}</span>
                         <div class="shop-actions">
-                            <a href="{% url 'quests:edit_shop' shop.id %}" class="edit-shop-btn">✏️ Edit</a>
+                            <a href="{% url 'quests:edit_shop' shop.id %}" class="edit-shop-btn" aria-label="Edit {{ shop.name }} shop">✏️ <span class="sr-only">Edit</span></a>
                             <a href="{% url 'quests:delete_shop' shop.id %}" class="delete-shop-btn" 
-                               onclick="return confirm('Are you sure you want to delete {{ shop.name }}?')">
-                                🗑️ Delete
+                               onclick="return confirm('Are you sure you want to delete {{ shop.name }}?')"
+                               aria-label="Delete {{ shop.name }} shop">
+                                🗑️ <span class="sr-only">Delete</span>
                             </a>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-        </div>
+        </section>
         
         <script>
         function toggleShopList() {
@@ -459,23 +498,26 @@
             if (shopList.style.display === 'none') {
                 shopList.style.display = 'block';
                 toggleBtn.textContent = '📁 Hide Shops';
+                toggleBtn.setAttribute('aria-expanded', 'true');
             } else {
                 shopList.style.display = 'none';
                 toggleBtn.textContent = '🛠️ Manage Shops';
+                toggleBtn.setAttribute('aria-expanded', 'false');
             }
         }
         </script>
     {% endif %}
 
     {% if shops_with_objectives %}
-        <div class="quest-list">
+        <section class="quest-list" aria-labelledby="quest-list-heading">
+            <h2 id="quest-list-heading" class="sr-only">Your Quest List</h2>
             {% for shop in shops_with_objectives %}
-                <div class="quest-item {% if shop.progress_percent == 100 %}completed{% endif %}">
-                    <div class="quest-title">
-                        <a href="{% url 'quests:shop_quest_log' shop.id %}" style="text-decoration: none; color: inherit;">
+                <article class="quest-item {% if shop.progress_percent == 100 %}completed{% endif %}" role="article">
+                    <header class="quest-title">
+                        <a href="{% url 'quests:shop_quest_log' shop.id %}" style="text-decoration: none; color: inherit;" aria-label="View details for {{ shop.name }}">
                             🏪 {{ shop.name }}
                         </a>
-                    </div>
+                    </header>
                     <div class="quest-description">
                         {% if shop.total_items > 0 %}
                             📦 {{ shop.completed_items }}/{{ shop.total_items }} items completed
@@ -495,45 +537,54 @@
                     </div>
                     {% if shop.total_items > 0 %}
                         <div style="margin-top: 10px;">
-                            <div style="background-color: #e9ecef; border-radius: 10px; height: 8px; overflow: hidden;">
+                            <div class="progress-bar" role="progressbar" 
+                                 aria-valuenow="{{ shop.progress_percent }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100"
+                                 aria-label="Quest progress: {{ shop.progress_percent|floatformat:0 }}% complete"
+                                 style="background-color: #e9ecef; border-radius: 10px; height: 8px; overflow: hidden;">
                                 <div style="background: linear-gradient(90deg, #28a745, #20c997); height: 100%; width: {{ shop.progress_percent }}%; transition: width 0.3s ease;"></div>
                             </div>
                         </div>
                     {% endif %}
                     <div style="margin-top: 10px; color: #666; font-size: 0.9em;">
-                        🎯 <a href="{% url 'quests:shop_quest_log' shop.id %}" style="color: #3498db; text-decoration: none;">View & manage items</a>
+                        🎯 <a href="{% url 'quests:shop_quest_log' shop.id %}" style="color: #3498db; text-decoration: none;" aria-label="View and manage items for {{ shop.name }}">View & manage items</a>
                     </div>
-                </div>
+                </article>
             {% endfor %}
-        </div>
+        </section>
     {% elif user.is_authenticated %}
-        <div class="no-quests">
-            <h3>No Quests Found!</h3>
+        <section class="no-quests" role="status" aria-live="polite">
+            <h2>No Quests Found!</h2>
             <p>Create your first quest to start your shopping adventure!</p>
-        </div>
+        </section>
     {% else %}
-        <div class="no-quests">
-            <h3>Welcome to Shopping Quest!</h3>
+        <section class="no-quests" role="status">
+            <h2>Welcome to Shopping Quest!</h2>
             <p>Your adventure awaits... Login to start adding shops and quests!</p>
-        </div>
+        </section>
     {% endif %}
 
-    {% if user.is_authenticated %}
-        <div style="text-align: center;">
-            <a href="{% url 'quests:add_shop' %}" class="new-quest-button">🛒 Add New Quest</a>
-        </div>
-    {% else %}
-        <div style="text-align: center;">
-            <a href="{% url 'login' %}" class="new-quest-button">🔐 Login to Add Quests</a>
-        </div>
-    {% endif %}
+    <nav role="navigation" aria-label="Main actions">
+        {% if user.is_authenticated %}
+            <div style="text-align: center;">
+                <a href="{% url 'quests:add_shop' %}" class="new-quest-button" aria-label="Add a new quest shop">🛒 Add New Quest</a>
+            </div>
+        {% else %}
+            <div style="text-align: center;">
+                <a href="{% url 'login' %}" class="new-quest-button" aria-label="Login to start adding quests">🔐 Login to Add Quests</a>
+            </div>
+        {% endif %}
 
-    {% if user.is_authenticated %}
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Log Out</button>
-    </form>
-{% endif %}
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}" style="text-align: center; margin-top: 20px;">
+            {% csrf_token %}
+            <button type="submit" aria-label="Log out of your account">Log Out</button>
+        </form>
+    {% endif %}
+    </nav>
+
+    </main>
 
     <!-- Decorative corner image -->
     <div class="decorative-corner"></div>
