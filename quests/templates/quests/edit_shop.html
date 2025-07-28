@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Shop - {{ shop.name }}</title>
+    <link rel="icon" type="image/png" href="{% static 'quests/images/icon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'quests/images/icon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'quests/images/icon.png' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-image: url('{% static "quests/images/background.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+        .header {
+            background-image: url('{% static "quests/images/header.png" %}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: 0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+            height: auto;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #2c3e50;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        .cancel-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .cancel-btn:hover {
+            background-color: #5a6268;
+        }
+        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 240px;
+            height: 240px;
+            background-image: url('{% static "quests/images/image.png" %}?v=8');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.7;
+            z-index: -1;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        /* Tablet screens - medium size */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .decorative-corner {
+                width: 360px;
+                height: 360px;
+                bottom: 15px;
+                right: 15px;
+                opacity: 0.6;
+            }
+        }
+        
+        /* Desktop screens - larger size */
+        @media (min-width: 1025px) {
+            .decorative-corner {
+                width: 480px;
+                height: 480px;
+                bottom: 20px;
+                right: 20px;
+                opacity: 0.8;
+            }
+        }
+        
+        /* Mobile screens - hide on very small screens */
+        @media (max-width: 480px) {
+            .decorative-corner {
+                display: none;
+            }
+        }
+        
+        /* Medium mobile screens - very small and subtle */
+        @media (min-width: 481px) and (max-width: 767px) {
+            .decorative-corner {
+                width: 160px;
+                height: 160px;
+                bottom: 10px;
+                right: 10px;
+                opacity: 0.4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- Header image background only -->
+    </div>
+
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                {{ form.name }}
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">✏️ Update Shop</button>
+                <a href="{% url 'quests:quest_log' %}" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Decorative corner image -->
+    <div class="decorative-corner"></div>
+</body>
+</html>

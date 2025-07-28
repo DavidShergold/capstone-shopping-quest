@@ -160,9 +160,22 @@
             text-decoration: none;
             border-radius: 3px;
             font-size: 0.8em;
+            margin-left: 5px;
         }
         .delete-shop-btn:hover {
             background-color: #c0392b;
+        }
+        .edit-shop-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 4px 8px;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+        .edit-shop-btn:hover {
+            background-color: #2980b9;
         }
         .player-stats {
             background-color: white;
@@ -287,6 +300,7 @@
             <div class="level-display">
                 <div>
                     <span class="level-badge">⭐ Level {{ profile.level }}</span>
+                    <a href="{% url 'quests:edit_profile' %}" class="edit-shop-btn" style="margin-left: 10px;">👤 Edit Profile</a>
                 </div>
                 <div class="exp-info">
                     <div>{{ profile.experience }} XP</div>
@@ -324,6 +338,7 @@
                 {% for shop in shops %}
                     <div class="shop-item">
                         <span class="shop-name">🏪 {{ shop.name }}</span>
+                        <a href="{% url 'quests:edit_shop' shop.id %}" class="edit-shop-btn">✏️ Edit</a>
                         <a href="{% url 'quests:delete_shop' shop.id %}" class="delete-shop-btn" 
                            onclick="return confirm('Are you sure you want to delete {{ shop.name }}?')">
                             🗑️ Delete

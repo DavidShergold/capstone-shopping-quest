@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import QuestLog, Shop, QuestObjective
-from .forms import ShopForm, QuestLogForm, QuestObjectiveForm, CustomUserCreationForm
+from .forms import ShopForm, QuestLogForm, QuestObjectiveForm, CustomUserCreationForm, UserProfileForm
 
 def home(request):
     return render(request, 'quests/home.html')
@@ -266,6 +266,56 @@ def complete_quest(request, shop_id):
     else:
         # Regular request - show congratulations page
         return render(request, 'quests/quest_complete.html', context)
+
+@login_required
+def edit_shop(request, shop_id):
+    """Edit shop name"""
+    shop = get_object_or_404(Shop, id=shop_id, adventurer=request.user)
+    
+    if request.method == 'POST':
+        form = ShopForm(request.POST, instance=shop)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Shop "{shop.name}" updated successfully!')
+            return redirect('quests:quest_log')
+    else:
+        form = ShopForm(instance=shop)
+    
+    return render(request, 'quests/edit_shop.html', {'form': form, 'shop': shop})
+
+@login_required
+def edit_objective(request, objective_id):
+    """Edit objective details"""
+    objective = get_object_or_404(QuestObjective, id=objective_id, adventurer=request.user)
+    
+    if request.method == 'POST':
+        form = QuestObjectiveForm(request.POST, instance=objective)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Objective "{objective.name}" updated successfully!')
+            return redirect('quests:shop_quest_log', shop_id=objective.shop.id)
+    else:
+        form = QuestObjectiveForm(instance=objective)
+    
+    return render(request, 'quests/edit_objective.html', {
+        'form': form, 
+        'objective': objective,
+        'shop': objective.shop
+    })
+
+@login_required
+def edit_profile(request):
+    """Edit user profile information"""
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('quests:quest_log')
+    else:
+        form = UserProfileForm(instance=request.user)
+    
+    return render(request, 'quests/edit_profile.html', {'form': form})
 
 @login_required
 def reset_completion_bonus(request, shop_id):

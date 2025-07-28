@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Objective - Shopping Quest</title>
+    <link rel="icon" type="image/png" href="{% static 'quests/images/icon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'quests/images/icon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'quests/images/icon.png' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-image: url('{% static "quests/images/background.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+        .header {
+            background-image: url('{% static "quests/images/header.png" %}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: 0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+            height: auto;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .delete-form {
+            background-color: white;
+            border: 1px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .warning {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .objective-details {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .objective-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .objective-info {
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .cancel-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .cancel-btn:hover {
+            background-color: #5a6268;
+        }
+        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 240px;
+            height: 240px;
+            background-image: url('{% static "quests/images/image.png" %}?v=8');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.7;
+            z-index: -1;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        /* Tablet screens - medium size */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .decorative-corner {
+                width: 360px;
+                height: 360px;
+                bottom: 15px;
+                right: 15px;
+                opacity: 0.6;
+            }
+        }
+        
+        /* Desktop screens - larger size */
+        @media (min-width: 1025px) {
+            .decorative-corner {
+                width: 480px;
+                height: 480px;
+                bottom: 20px;
+                right: 20px;
+                opacity: 0.8;
+            }
+        }
+        
+        /* Mobile screens - hide on very small screens */
+        @media (max-width: 480px) {
+            .decorative-corner {
+                display: none;
+            }
+        }
+        
+        /* Medium mobile screens - very small and subtle */
+        @media (min-width: 481px) and (max-width: 767px) {
+            .decorative-corner {
+                width: 160px;
+                height: 160px;
+                bottom: 10px;
+                right: 10px;
+                opacity: 0.4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- Header image background only -->
+    </div>
+
+    <div class="delete-form">
+        <div class="warning">
+            <strong>⚠️ Warning!</strong> You are about to permanently delete this objective. This action cannot be undone.
+        </div>
+
+        <div class="objective-details">
+            <div class="objective-name">{{ objective.name }}</div>
+            <div class="objective-info"><strong>Quantity:</strong> {{ objective.quantity }}</div>
+            <div class="objective-info"><strong>Shop:</strong> {{ objective.shop.name }}</div>
+            {% if objective.notes %}
+                <div class="objective-info"><strong>Notes:</strong> {{ objective.notes }}</div>
+            {% endif %}
+            <div class="objective-info"><strong>Status:</strong> 
+                {% if objective.is_completed %}
+                    <span style="color: #27ae60;">✓ Completed</span>
+                {% else %}
+                    <span style="color: #e74c3c;">○ Pending</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="button-group">
+                <button type="submit" class="delete-btn">🗑️ Delete Objective</button>
+                <a href="{% url 'quests:shop_quest_log' objective.shop.id %}" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Decorative corner image -->
+    <div class="decorative-corner"></div>
+</body>
+</html>
