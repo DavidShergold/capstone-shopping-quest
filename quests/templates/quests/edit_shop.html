@@ -153,6 +153,81 @@
                 opacity: 0.4;
             }
         }
+        
+        /* Footer Styles */
+        .quest-footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #ecf0f1;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+            border: 2px solid #34495e;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-text {
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        .footer-links {
+            margin-top: 10px;
+        }
+        
+        .footer-link {
+            color: #3498db;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 0 5px;
+            border: 1px solid transparent;
+        }
+        
+        .footer-link:hover {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+            transform: translateY(-1px);
+        }
+        
+        .footer-divider {
+            color: #7f8c8d;
+            margin: 0 10px;
+        }
+        
+        .quest-footer::before {
+            content: "⚔️";
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 5px 10px;
+            border-radius: 50%;
+            border: 2px solid #34495e;
+        }
+        
+        .quest-footer::after {
+            content: "🏆";
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 5px 10px;
+            border-radius: 50%;
+            border: 2px solid #34495e;
+        }
     </style>
 </head>
 <body>
@@ -178,5 +253,21 @@
 
     <!-- Decorative corner image -->
     <div class="decorative-corner"></div>
+    
+    <!-- Quest Footer -->
+    <footer class="quest-footer">
+        <div class="footer-content">
+            <div class="footer-text">
+                © 2025 Shopping Quest. Transform your shopping into an epic adventure!
+            </div>
+            <div class="footer-links">
+                <a href="mailto:contact@shoppingquest.com" class="footer-link">📧 Contact Us</a>
+                <span class="footer-divider">|</span>
+                <a href="#" class="footer-link" onclick="alert('Shopping Quest v3.0 - Built with Django 🐍')">ℹ️ About</a>
+                <span class="footer-divider">|</span>
+                <a href="https://github.com/DavidShergold/capstone-shopping-quest" class="footer-link" target="_blank" rel="noopener">⭐ GitHub</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

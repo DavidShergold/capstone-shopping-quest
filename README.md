@@ -20,6 +20,37 @@ Create your account and start your shopping adventure today!
 - 📊 **Progress Visualization**: Beautiful progress bars, level badges, achievement tracking, and animated celebrations
 - 🎨 **Visual Polish**: Dynamic decorative corner images that scale responsively from mobile to desktop
 - 🔄 **Smart Caching**: Optimized static file serving with cache-busting for seamless updates
+- ✏️ **Full CRUD Operations**: Complete Create, Read, Update, Delete functionality across all entities
+
+## 🛠️ CRUD Functionality
+
+Shopping Quest now includes comprehensive **CRUD (Create, Read, Update, Delete)** operations for all major entities:
+
+### 🏪 Shop Management
+- **Create**: Add new shops with custom names via dedicated form
+- **Read**: View all shops in organized lists with progress tracking
+- **Update**: Edit shop names using the ✏️ edit button in the shop list
+- **Delete**: Remove shops with confirmation dialog (includes all associated objectives)
+
+### 🎯 Quest Objectives
+- **Create**: Add shopping items with name, quantity, and optional notes
+- **Read**: View objectives in organized lists with completion status and progress bars
+- **Update**: Edit objective details (name, quantity, notes) using the ✏️ edit button
+- **Delete**: Remove individual objectives with confirmation dialog and 🗑️ delete button
+
+### 👤 User Profile Management
+- **Create**: User registration with email validation and automatic profile creation
+- **Read**: View player stats including level, XP, and progress in all interfaces
+- **Update**: Edit profile information (username, email, first/last name) via "👤 Edit Profile" button
+- **Delete**: Account management through Django admin (preserves data integrity)
+
+### 🎮 User Experience Features
+- **Intuitive Interface**: Color-coded action buttons (🟢 Add, 🔵 Edit, 🔴 Delete)
+- **Confirmation Dialogs**: Prevent accidental deletions with "Are you sure?" prompts
+- **Success Messages**: Clear feedback when operations complete successfully
+- **Form Validation**: Client and server-side validation with helpful error messages
+- **Responsive Forms**: All CRUD forms adapt to mobile and desktop layouts
+- **Consistent Styling**: Unified visual design across all CRUD operations
 
 ## 🛠️ Technology Stack
 
@@ -116,12 +147,25 @@ The project includes pgAdmin setup for visual database management:
 ```
 capstone-shopping-quest/
 ├── quests/                 # Main Django app
-│   ├── models.py          # Shop, QuestLog, QuestObjective, UserProfile
-│   ├── views.py           # Business logic and XP calculations
-│   ├── forms.py           # Django forms including CustomUserCreationForm
-│   ├── urls.py            # URL routing
+│   ├── models.py          # Shop, QuestLog, QuestObjective, UserProfile models
+│   ├── views.py           # Business logic, XP calculations, and CRUD operations
+│   ├── forms.py           # Django forms including CRUD forms and validation
+│   ├── urls.py            # URL routing with full CRUD endpoints
 │   ├── admin.py           # Django admin configuration
-│   └── templates/         # HTML templates with quest theme
+│   └── templates/quests/  # HTML templates with responsive quest theme
+│       ├── add_shop.html           # Create shop form
+│       ├── edit_shop.html          # Update shop form ✨ NEW
+│       ├── delete_shop.html        # Delete shop confirmation
+│       ├── add_objective.html      # Create objective form  
+│       ├── edit_objective.html     # Update objective form ✨ NEW
+│       ├── delete_objective.html   # Delete objective confirmation ✨ NEW
+│       ├── edit_profile.html       # Update user profile form ✨ NEW
+│       ├── quest_log_new.html      # Main dashboard with CRUD buttons
+│       ├── shop_objectives.html    # Shop detail view with CRUD operations
+│       ├── register.html           # User registration
+│       ├── login.html              # User authentication
+│       ├── home.html               # Landing page
+│       └── quest_complete.html     # Completion celebration
 ├── shoppingquest/         # Django project settings
 │   ├── settings.py        # Configuration with production support
 │   ├── local_settings.py  # Local development overrides
@@ -130,7 +174,23 @@ capstone-shopping-quest/
 ├── requirements.txt      # Python dependencies
 ├── Procfile             # Heroku deployment configuration
 ├── runtime.txt          # Python version specification
-└── README.md           # This file
+└── README.md           # Project documentation
+```
+
+### 🔗 CRUD URL Structure
+```
+/                                    # Main quest log (Read shops & objectives)
+/register/                          # User registration (Create user)
+/profile/edit/                      # Edit user profile (Update user) ✨ NEW
+/shop/add/                          # Add new shop (Create shop)
+/shop/<id>/                         # Shop detail view (Read objectives)
+/shop/<id>/edit/                    # Edit shop name (Update shop) ✨ NEW
+/shop/<id>/delete/                  # Delete shop confirmation (Delete shop)
+/shop/<id>/add-objective/           # Add objective to shop (Create objective)
+/shop/<id>/complete/                # Complete quest (Special action)
+/objective/<id>/edit/               # Edit objective details (Update objective) ✨ NEW
+/objective/<id>/toggle/             # Toggle completion (Update status)
+/objective/<id>/delete/             # Delete objective (Delete objective)
 ```
 
 ## 🚀 Deployment
@@ -172,12 +232,34 @@ heroku run python manage.py createsuperuser
 ## 🎮 How to Play
 
 1. **Register**: Create your account at the live demo link
-2. **Create Shops**: Add different stores where you shop (e.g., "Grocery Store", "Hardware Store")
-3. **Add Objectives**: Create shopping list items for each shop with quantities and notes
-4. **Complete Quests**: Check off items as you shop to earn XP with real-time notifications
-5. **Level Up**: Watch your progress bars fill and advance through levels with celebration animations
-6. **Manage**: Use the shop filter and management tools to stay organized
-7. **Enjoy**: Experience responsive design that adapts beautifully to any device size
+2. **Edit Profile**: Use "👤 Edit Profile" to customize your adventurer name and details ✨ NEW
+3. **Create Shops**: Add different stores where you shop (e.g., "Grocery Store", "Hardware Store")
+4. **Manage Shops**: Edit shop names using ✏️ button or delete with 🗑️ button ✨ NEW
+5. **Add Objectives**: Create shopping list items for each shop with quantities and notes
+6. **Edit Objectives**: Modify item details, quantities, or notes using the ✏️ edit button ✨ NEW
+7. **Complete Quests**: Check off items as you shop to earn XP with real-time notifications
+8. **Level Up**: Watch your progress bars fill and advance through levels with celebration animations
+9. **Smart Management**: Use filtering tools and CRUD operations to stay organized ✨ NEW
+
+### 🛠️ CRUD Operations Guide
+
+#### 🏪 Shop Operations
+- **Create**: Click "🏪 Add New Shop" → Enter shop name → Save
+- **Read**: View all shops in the main dashboard with progress indicators
+- **Update**: Click ✏️ "Edit" next to shop name → Modify → Save ✨ NEW
+- **Delete**: Click 🗑️ "Delete" → Confirm deletion (removes all objectives)
+
+#### 🎯 Objective Operations  
+- **Create**: Enter shop → Click "➕ Add Objective" → Fill details → Save
+- **Read**: View all objectives with completion status and progress bars
+- **Update**: Click ✏️ next to objective → Edit name/quantity/notes → Save ✨ NEW
+- **Delete**: Click 🗑️ next to objective → Confirm deletion
+
+#### 👤 Profile Operations
+- **Create**: Register with username, email, and password (auto-creates profile)
+- **Read**: View stats in player dashboard (level, XP, progress)
+- **Update**: Click "👤 Edit Profile" → Modify details → Save ✨ NEW
+- **Delete**: Contact admin (preserves data integrity)
 
 ### 🎨 Visual Experience
 - **Desktop (≥1025px)**: Large 480px decorative corner images with full opacity
@@ -186,6 +268,15 @@ heroku run python manage.py createsuperuser
 - **Small Mobile (≤480px)**: Clean interface with decorative elements hidden for optimal usability
 
 ## 🎯 Recent Updates
+
+### Version 3.0 - Complete CRUD Implementation ✨ NEW
+- ✏️ **Full Edit Functionality**: Edit shops, objectives, and user profiles with dedicated forms
+- 🗑️ **Enhanced Delete Operations**: Comprehensive deletion with confirmation dialogs for all entities  
+- 👤 **Profile Management**: Complete user profile editing with stats preservation
+- 🔗 **RESTful URLs**: Clean URL structure following CRUD conventions
+- 🎨 **Consistent UI**: Unified button styling and responsive forms across all operations
+- ✅ **Form Validation**: Client and server-side validation with helpful error messages
+- 💬 **User Feedback**: Success messages and confirmation dialogs for all CRUD operations
 
 ### Version 2.0 - Enhanced Visual Experience
 - ✨ **Responsive Decorative Elements**: Adaptive corner images that scale perfectly across all devices
@@ -196,14 +287,27 @@ heroku run python manage.py createsuperuser
 
 ## 🧪 Testing Features
 
-- **User Registration**: Email-required account creation with automatic login
-- **XP System**: Complete objectives to test the 10 XP + 30 XP bonus system
-- **Shop Management**: Create, filter, and delete shops with full CRUD operations
+### Core Functionality Testing
+- **User Registration**: Email-required account creation with automatic login and profile generation
+- **CRUD Operations**: Test all Create, Read, Update, Delete operations across shops, objectives, and profiles ✨ NEW
+- **XP System**: Complete objectives to test the 10 XP + 30 XP bonus system with real-time updates
+- **Shop Management**: Create, edit, filter, and delete shops with full data persistence ✨ NEW
+- **Objective Management**: Add, modify, complete, and remove shopping items with validation ✨ NEW
+- **Profile Editing**: Update user information while preserving game progress and statistics ✨ NEW
+
+### User Interface Testing
 - **Real-time Updates**: Experience AJAX notifications, progress updates, and celebration modals
 - **Responsive Design**: Test adaptive layouts and decorative elements on different screen sizes
 - **Mobile Optimization**: Verify touch-friendly interface and mobile-specific adaptations
-- **Data Persistence**: All progress is saved to PostgreSQL database with transaction safety
+- **Form Validation**: Test client and server-side validation with error handling ✨ NEW
+- **Confirmation Dialogs**: Verify deletion protection and user feedback systems ✨ NEW
+- **Button Interactions**: Test color-coded action buttons and hover effects ✨ NEW
+
+### Data Management Testing
+- **Data Persistence**: All progress and changes saved to PostgreSQL database with transaction safety
 - **Visual Feedback**: Interactive elements with hover effects, animations, and dynamic sizing
+- **Cross-Entity Relationships**: Test shop-objective relationships and cascade deletion behavior ✨ NEW
+- **User Session Management**: Verify authentication, authorization, and user-specific data access ✨ NEW
 
 ## 🤝 Contributing
 
