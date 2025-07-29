@@ -366,7 +366,111 @@ heroku run python manage.py createsuperuser
 
 ## 📋 User Experience Design & User Stories
 
-### 🎯 User Stories
+### � Wireframes & Design Process
+
+Shopping Quest was developed with a comprehensive design-first approach, using wireframes to plan the user experience and interface layouts before implementation.
+
+#### **📱 Mobile-First Wireframe Strategy**
+
+Following mobile-first design principles, wireframes were created to ensure optimal user experience across all device sizes:
+
+**Mobile Wireframes (320px - 768px):**
+- Vertical stacked layout for quest items
+- Collapsible shop management sections
+- Touch-friendly button sizing (minimum 44px)
+- Hidden decorative elements for clean interface
+
+**Tablet Wireframes (768px - 1024px):**
+- Two-column layout for better content organization
+- Medium-sized decorative elements
+- Balanced spacing between interactive elements
+
+**Desktop Wireframes (1024px+):**
+- Multi-column layout with sidebar navigation
+- Full decorative corner elements
+- Hover states and advanced interactions
+
+#### **🗂️ Wireframe Collection**
+
+*Wireframes are stored in the `docs/wireframes/` directory and include:*
+
+1. **Authentication Flow**
+   - `login-wireframe.png` - Login page layout
+   - `register-wireframe.png` - Registration form design
+   - `profile-edit-wireframe.png` - Profile management interface
+
+2. **Main Application Flow**
+   - `dashboard-wireframe.png` - Main quest log with player stats
+   - `shop-management-wireframe.png` - Shop creation and editing
+   - `objective-management-wireframe.png` - Quest objective CRUD operations
+
+3. **Gamification Features**
+   - `leaderboard-wireframe.png` - Heroes' Hall of Fame rankings
+   - `progress-tracking-wireframe.png` - XP bars and level progression
+   - `completion-celebration-wireframe.png` - Quest completion modals
+
+4. **Responsive Breakpoints**
+   - `mobile-navigation-wireframe.png` - Mobile menu and navigation
+   - `tablet-layout-wireframe.png` - Tablet-optimized interface
+   - `desktop-full-wireframe.png` - Desktop with all features
+
+#### **🎯 Key Design Decisions from Wireframes**
+
+**Information Hierarchy:**
+- Player stats positioned prominently at top
+- Shop filtering as secondary navigation
+- Quest objectives as primary content area
+- Actions buttons clearly separated and color-coded
+
+**User Flow Optimization:**
+- One-click access to all CRUD operations
+- Progressive disclosure for advanced features (shop management)
+- Clear visual feedback for all user actions
+- Logical navigation paths between related features
+
+**Accessibility Considerations:**
+- High contrast color schemes planned from wireframe stage
+- Proper heading hierarchy and semantic structure
+- Touch target sizing for mobile interactions
+- Screen reader navigation paths mapped out
+
+**Gamification Integration:**
+- XP and level information integrated naturally into interface
+- Progress bars positioned for immediate feedback
+- Leaderboard accessible but not overwhelming
+- Achievement celebrations designed as overlay modals
+
+#### **📐 Wireframe Tools & Process**
+
+**Design Tools Used:**
+- **Figma**: Primary wireframing and prototyping tool
+- **Balsamiq**: Quick low-fidelity concept sketches  
+- **Paper Sketches**: Initial brainstorming and user flow mapping
+
+**Iterative Design Process:**
+1. **User Story Mapping**: Translated user stories into screen requirements
+2. **Low-Fidelity Sketches**: Rapid paper prototypes for core concepts
+3. **Digital Wireframes**: Detailed layouts with spacing and proportions
+4. **Interactive Prototypes**: Clickable wireframes for user flow testing
+5. **Responsive Adaptation**: Breakpoint-specific layout variations
+6. **Accessibility Review**: Screen reader and keyboard navigation testing
+
+*📁 **Wireframe Access**: All wireframes are stored in `docs/wireframes/` directory for assessment review*
+
+**🎯 Quick Reference**: 
+- `docs/wireframes/README.md` - Complete wireframe creation guide
+- `docs/wireframes/ascii-examples.md` - Layout concept demonstrations
+- Visual wireframes can be added to demonstrate design planning process
+
+#### **🔄 Design to Development Workflow**
+
+The wireframes directly informed the final implementation:
+- **CSS Grid/Flexbox**: Layout structures match wireframe specifications
+- **Component Hierarchy**: HTML semantic structure follows wireframe organization  
+- **Responsive Breakpoints**: Media queries implement exact wireframe breakpoints
+- **User Interaction Patterns**: JavaScript behaviors match wireframe interactions
+
+### �🎯 User Stories
 
 Shopping Quest was developed following Agile methodology with clear user stories mapped to development tasks:
 
