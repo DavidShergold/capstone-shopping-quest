@@ -5,6 +5,7 @@ app_name = 'quests'
 urlpatterns = [
     path('', views.quest_log, name='quest_log'),
     path('register/', views.register, name='register'),
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('shop/add/', views.add_shop, name='add_shop'),
     path('shop/<int:shop_id>/', views.shop_quest_log, name='shop_quest_log'),

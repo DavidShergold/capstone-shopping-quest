@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib import messages
 from django.http import JsonResponse
+from django.db import models
 from .models import QuestLog, Shop, QuestObjective
 from .forms import ShopForm, QuestLogForm, QuestObjectiveForm, CustomUserCreationForm, UserProfileForm
 
@@ -324,3 +325,38 @@ def reset_completion_bonus(request, shop_id):
     shop.completion_bonus_awarded = False
     shop.save()
     return redirect('quests:shop_quest_log', shop_id=shop_id)
+
+def leaderboard(request):
+    """Display leaderboard of top players by level and experience"""
+    from .models import UserProfile
+    
+    # Get top 50 players sorted by level (desc), then by total experience (desc)
+    top_players = UserProfile.objects.select_related('user').order_by('-level', '-total_experience')[:50]
+    
+    # Add ranking
+    for i, player in enumerate(top_players):
+        player.rank = i + 1
+        
+    # Get current user's ranking if authenticated
+    current_user_rank = None
+    current_user_profile = None
+    if request.user.is_authenticated:
+        try:
+            current_user_profile = request.user.userprofile
+            # Count how many players are ahead of current user
+            players_ahead = UserProfile.objects.filter(
+                models.Q(level__gt=current_user_profile.level) |
+                models.Q(level=current_user_profile.level, total_experience__gt=current_user_profile.total_experience)
+            ).count()
+            current_user_rank = players_ahead + 1
+        except:
+            pass
+    
+    context = {
+        'top_players': top_players,
+        'current_user_rank': current_user_rank,
+        'current_user_profile': current_user_profile,
+        'total_players': UserProfile.objects.count()
+    }
+    
+    return render(request, 'quests/leaderboard.html', context)

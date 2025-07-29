@@ -104,6 +104,15 @@
         .add-quest-btn:hover, .new-quest-button:hover {
             background-color: #2980b9;
         }
+        
+        /* Mobile responsive button layout */
+        @media (max-width: 480px) {
+            .new-quest-button {
+                display: block;
+                margin: 10px auto !important;
+                max-width: 200px;
+            }
+        }
         .shop-filter {
             background-color: white;
             border: 1px solid #ddd;
@@ -600,10 +609,12 @@
         {% if user.is_authenticated %}
             <div style="text-align: center;">
                 <a href="{% url 'quests:add_shop' %}" class="new-quest-button" aria-label="Add a new quest shop">🛒 Add New Quest</a>
+                <a href="{% url 'quests:leaderboard' %}" class="new-quest-button" style="background-color: #e67e22; margin-left: 10px;" aria-label="View leaderboard">🏆 Leaderboard</a>
             </div>
         {% else %}
             <div style="text-align: center;">
                 <a href="{% url 'login' %}" class="new-quest-button" aria-label="Login to start adding quests">🔐 Login to Add Quests</a>
+                <a href="{% url 'quests:leaderboard' %}" class="new-quest-button" style="background-color: #e67e22; margin-left: 10px;" aria-label="View leaderboard">🏆 Leaderboard</a>
             </div>
         {% endif %}
 

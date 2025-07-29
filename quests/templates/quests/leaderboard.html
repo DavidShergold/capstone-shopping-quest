@@ -1,0 +1,366 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Shopping Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Metamorphous&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'quests/images/icon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'quests/images/icon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'quests/images/icon.png' %}">
+    <style>
+        body {
+            font-family: 'Metamorphous', cursive;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-image: url('{% static "quests/images/background.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background-image: url('{% static "quests/images/header.png" %}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: 0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            min-height: 200px;
+            height: auto;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .leaderboard-container {
+            background-color: white;
+            border: 2px solid #34495e;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)),
+                url('{% static "quests/images/stone.png" %}');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .leaderboard-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .current-user-rank {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            border: 2px solid #d68910;
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .leaderboard-table th {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .leaderboard-table tr:nth-child(even) {
+            background-color: rgba(0,0,0,0.05);
+        }
+        
+        .leaderboard-table tr:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .rank-badge {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .rank-1 { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+        .rank-2 { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
+        .rank-3 { background: linear-gradient(135deg, #e67e22, #d35400); }
+        .rank-other { background: linear-gradient(135deg, #3498db, #2980b9); }
+        
+        .level-badge {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .xp-display {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .current-user-row {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.2), rgba(243, 156, 18, 0.2)) !important;
+            border: 2px solid #f39c12;
+        }
+        
+        .navigation-links {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            display: inline-block;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .stats-summary {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 15px;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .leaderboard-table {
+                font-size: 0.9em;
+            }
+            
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 8px 4px;
+            }
+            
+            .rank-badge {
+                width: 25px;
+                height: 25px;
+                line-height: 25px;
+                font-size: 0.8em;
+            }
+            
+            .nav-btn {
+                display: block;
+                margin: 10px auto;
+                max-width: 200px;
+            }
+        }
+        
+        /* Quest Footer Styles */
+        .quest-footer {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #ecf0f1;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+            border: 2px solid #34495e;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-text {
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        .footer-links {
+            margin-top: 10px;
+        }
+        
+        .footer-link {
+            color: #3498db;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 0 5px;
+            border: 1px solid transparent;
+        }
+        
+        .footer-link:hover {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+            transform: translateY(-1px);
+        }
+        
+        .footer-divider {
+            color: #7f8c8d;
+            margin: 0 10px;
+        }
+        
+        .quest-footer::before {
+            content: "⚔️";
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 5px 10px;
+            border-radius: 50%;
+            border: 2px solid #34495e;
+        }
+        
+        .quest-footer::after {
+            content: "🏆";
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 5px 10px;
+            border-radius: 50%;
+            border: 2px solid #34495e;
+        }
+    </style>
+</head>
+<body>
+    <header class="header" role="banner" aria-label="Shopping Quest Leaderboard">
+        <!-- Header image background only -->
+    </header>
+
+    <main role="main">
+        <div class="leaderboard-container">
+            <h1 class="leaderboard-title">🏆 Heroes' Hall of Fame 🏆</h1>
+            
+            {% if current_user_rank and current_user_profile %}
+                <div class="current-user-rank">
+                    🎯 Your Rank: #{{ current_user_rank }} out of {{ total_players }} adventurers
+                    <br>
+                    ⭐ Level {{ current_user_profile.level }} | 💎 {{ current_user_profile.total_experience }} Total XP
+                </div>
+            {% endif %}
+            
+            <table class="leaderboard-table" role="table" aria-label="Player leaderboard rankings">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Adventurer</th>
+                        <th>Level</th>
+                        <th>Total XP</th>
+                        <th>Current XP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in top_players %}
+                        <tr {% if user.is_authenticated and player.user == user %}class="current-user-row"{% endif %}>
+                            <td>
+                                <span class="rank-badge {% if player.rank == 1 %}rank-1{% elif player.rank == 2 %}rank-2{% elif player.rank == 3 %}rank-3{% else %}rank-other{% endif %}">
+                                    {% if player.rank == 1 %}👑{% elif player.rank == 2 %}🥈{% elif player.rank == 3 %}🥉{% else %}{{ player.rank }}{% endif %}
+                                </span>
+                            </td>
+                            <td>
+                                <strong>{{ player.user.username|title }}</strong>
+                                {% if user.is_authenticated and player.user == user %}
+                                    <span style="color: #f39c12; font-weight: bold;">(You)</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="level-badge">⭐ {{ player.level }}</span>
+                            </td>
+                            <td>
+                                <span class="xp-display">💎 {{ player.total_experience }}</span>
+                            </td>
+                            <td>
+                                <span class="xp-display">🎯 {{ player.experience }}</span>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; font-style: italic; color: #7f8c8d;">
+                                No adventurers found. Be the first to start your quest!
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="stats-summary">
+                Showing top {{ top_players|length }} out of {{ total_players }} total adventurers
+            </div>
+        </div>
+        
+        <div class="navigation-links">
+            <a href="{% url 'quests:quest_log' %}" class="nav-btn" aria-label="Return to your quest log">🗺️ Back to Quest Log</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'quests:add_shop' %}" class="nav-btn" aria-label="Add a new quest to gain XP">🛒 Add New Quest</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-btn" aria-label="Login to start your adventure">🔐 Join the Adventure</a>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Quest Footer -->
+    <footer class="quest-footer">
+        <div class="footer-content">
+            <div class="footer-text">
+                © 2025 Shergold Enterprises. Transform your shopping into an epic adventure!
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/DavidShergold/capstone-shopping-quest/issues" class="footer-link" target="_blank" rel="noopener">📧 Contact & Feedback</a>
+                <span class="footer-divider">|</span>
+                <a href="#" class="footer-link" onclick="alert('Shopping Quest v3.0 - Built with Django 🐍')">ℹ️ About</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
