@@ -12,7 +12,8 @@ Create your account and start your shopping adventure today!
 
 - 🎯 **Quest System**: Create shopping lists as quest objectives with interactive checklists
 - ⚡ **Experience Points**: Earn 10 XP per completed item + 30 XP completion bonus for finishing shops
-- ⭐ **Progressive Leveling**: Dynamic level system with visual progress tracking and requirements
+- ⭐ **Unlimited Progression**: Dynamic level system with no maximum level cap using formula `100 * level^1.5`
+- 🏆 **Competitive Leaderboard**: Heroes' Hall of Fame showing top 50 players with global rankings
 - 🏪 **Shop Management**: Organize quests by different shops with filtering and management tools
 - 👤 **User Accounts**: Complete registration and login system with secure authentication
 - 📱 **Responsive Design**: Fully responsive interface with adaptive decorative elements across all screen sizes
@@ -100,15 +101,23 @@ Shopping Quest is built with performance and accessibility as core priorities. H
 ### Experience System
 - **Objective Completion**: +10 XP per completed shopping item
 - **Quest Completion**: +30 XP bonus for completing all objectives in a shop
-- **Progressive Leveling**: XP requirements increase with each level using the formula: `100 + (level * 42)`
+- **Unlimited Progression**: No level cap! XP requirements scale with formula: `100 * level^1.5`
 - **Visual Feedback**: Real-time progress bars, level badges, and completion notifications
 
 ### Level Progression Examples
 - **Level 1**: 0 XP required
-- **Level 2**: 142 XP required  
-- **Level 3**: 184 XP required
-- **Level 4**: 226 XP required
-- **Level 5**: 268 XP required
+- **Level 2**: 141 XP required (100 * 2^1.5 ≈ 141)
+- **Level 3**: 245 XP required (100 * 3^1.5 ≈ 245)
+- **Level 5**: 559 XP required (100 * 5^1.5 ≈ 559)
+- **Level 10**: 1,581 XP required (100 * 10^1.5 ≈ 1,581)
+- **Level 20**: 4,472 XP required (100 * 20^1.5 ≈ 4,472)
+
+### 🏆 Competitive Features
+- **Heroes' Hall of Fame**: Global leaderboard showing top 50 adventurers
+- **Ranking System**: Players ranked by level, then by total experience points
+- **Personal Stats**: See your current rank among all players
+- **Motivation**: Compete with friends and climb the leaderboard
+- **Achievement Recognition**: Gold, silver, and bronze badges for top performers
 
 ## 🚀 Getting Started
 
@@ -193,6 +202,7 @@ capstone-shopping-quest/
 │       ├── edit_objective.html     # Update objective form ✨ NEW
 │       ├── delete_objective.html   # Delete objective confirmation ✨ NEW
 │       ├── edit_profile.html       # Update user profile form ✨ NEW
+│       ├── leaderboard.html        # Heroes' Hall of Fame rankings ✨ NEW
 │       ├── quest_log_new.html      # Main dashboard with CRUD buttons
 │       ├── shop_objectives.html    # Shop detail view with CRUD operations
 │       ├── register.html           # User registration
@@ -215,6 +225,7 @@ capstone-shopping-quest/
 /                                    # Main quest log (Read shops & objectives)
 /register/                          # User registration (Create user)
 /profile/edit/                      # Edit user profile (Update user) ✨ NEW
+/leaderboard/                       # Heroes' Hall of Fame rankings ✨ NEW
 /shop/add/                          # Add new shop (Create shop)
 /shop/<id>/                         # Shop detail view (Read objectives)
 /shop/<id>/edit/                    # Edit shop name (Update shop) ✨ NEW
@@ -271,8 +282,9 @@ heroku run python manage.py createsuperuser
 5. **Add Objectives**: Create shopping list items for each shop with quantities and notes
 6. **Edit Objectives**: Modify item details, quantities, or notes using the ✏️ edit button ✨ NEW
 7. **Complete Quests**: Check off items as you shop to earn XP with real-time notifications
-8. **Level Up**: Watch your progress bars fill and advance through levels with celebration animations
-9. **Smart Management**: Use filtering tools and CRUD operations to stay organized ✨ NEW
+8. **Level Up**: Watch your progress bars fill and advance through unlimited levels with celebration animations
+9. **Compete**: Check the 🏆 Leaderboard to see your ranking among all adventurers ✨ NEW
+10. **Smart Management**: Use filtering tools and CRUD operations to stay organized ✨ NEW
 
 ### 🛠️ CRUD Operations Guide
 
@@ -302,7 +314,15 @@ heroku run python manage.py createsuperuser
 
 ## 🎯 Recent Updates
 
-### Version 3.0 - Complete CRUD Implementation ✨ NEW
+### Version 4.0 - Competitive Gaming & Unlimited Progression ✨ NEW
+- 🏆 **Heroes' Hall of Fame**: Global leaderboard showcasing top 50 adventurers with ranking badges
+- ♾️ **Unlimited Levels**: Removed level cap with progressive scaling formula `100 * level^1.5`
+- 🥇 **Competitive Rankings**: Players compete for gold, silver, and bronze positions
+- 📊 **Personal Stats**: See your current rank and compete with friends to climb the leaderboard
+- 🎯 **Enhanced Motivation**: Competitive elements encourage continued engagement and quest completion
+- 🏃‍♂️ **Live Rankings**: Real-time leaderboard updates showing current standings among all players
+
+### Version 3.0 - Complete CRUD Implementation
 - ✏️ **Full Edit Functionality**: Edit shops, objectives, and user profiles with dedicated forms
 - 🗑️ **Enhanced Delete Operations**: Comprehensive deletion with confirmation dialogs for all entities  
 - 👤 **Profile Management**: Complete user profile editing with stats preservation
@@ -324,6 +344,8 @@ heroku run python manage.py createsuperuser
 - **User Registration**: Email-required account creation with automatic login and profile generation
 - **CRUD Operations**: Test all Create, Read, Update, Delete operations across shops, objectives, and profiles ✨ NEW
 - **XP System**: Complete objectives to test the 10 XP + 30 XP bonus system with real-time updates
+- **Unlimited Progression**: Test the scaling level system with no maximum cap ✨ NEW
+- **Leaderboard System**: Check global rankings and competitive positioning ✨ NEW
 - **Shop Management**: Create, edit, filter, and delete shops with full data persistence ✨ NEW
 - **Objective Management**: Add, modify, complete, and remove shopping items with validation ✨ NEW
 - **Profile Editing**: Update user information while preserving game progress and statistics ✨ NEW
