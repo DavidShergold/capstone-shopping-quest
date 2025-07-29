@@ -43,7 +43,7 @@ Shopping Quest now includes comprehensive **CRUD (Create, Read, Update, Delete)*
 - **Create**: User registration with email validation and automatic profile creation
 - **Read**: View player stats including level, XP, and progress in all interfaces
 - **Update**: Edit profile information (username, email, first/last name) via "👤 Edit Profile" button
-- **Delete**: Account management through Django admin (preserves data integrity)
+- **Delete**: Account deletion with confirmation dialog and complete data removal ✨ NEW
 
 ### 🎮 User Experience Features
 - **Intuitive Interface**: Color-coded action buttons (🟢 Add, 🔵 Edit, 🔴 Delete)
@@ -225,6 +225,7 @@ capstone-shopping-quest/
 /                                    # Main quest log (Read shops & objectives)
 /register/                          # User registration (Create user)
 /profile/edit/                      # Edit user profile (Update user) ✨ NEW
+/profile/delete/                    # Delete user account (Delete user) ✨ NEW
 /leaderboard/                       # Heroes' Hall of Fame rankings ✨ NEW
 /shop/add/                          # Add new shop (Create shop)
 /shop/<id>/                         # Shop detail view (Read objectives)
@@ -304,7 +305,7 @@ heroku run python manage.py createsuperuser
 - **Create**: Register with username, email, and password (auto-creates profile)
 - **Read**: View stats in player dashboard (level, XP, progress)
 - **Update**: Click "👤 Edit Profile" → Modify details → Save ✨ NEW
-- **Delete**: Contact admin (preserves data integrity)
+- **Delete**: Click "💀 Delete Account" in profile settings → Confirm deletion ✨ NEW
 
 ### 🎨 Visual Experience
 - **Desktop (≥1025px)**: Large 480px decorative corner images with full opacity
@@ -548,9 +549,7 @@ Shopping Quest has undergone extensive testing across multiple dimensions to ens
 |--------|--------|------|--------|--------|------------|--------|
 | Shops | ✅ | ✅ | ✅ | ✅ | ✅ | Pass |
 | Objectives | ✅ | ✅ | ✅ | ✅ | ✅ | Pass |
-| Profiles | ✅ | ✅ | ✅ | ❌* | ✅ | Pass |
-
-*Profile deletion handled via admin for data integrity
+| Profiles | ✅ | ✅ | ✅ | ✅ | ✅ | Pass |
 
 **Gamification System Testing:**
 | Feature | Test Case | Expected | Actual | Status |

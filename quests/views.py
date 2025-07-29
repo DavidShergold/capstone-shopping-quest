@@ -321,6 +321,21 @@ def edit_profile(request):
     return render(request, 'quests/edit_profile.html', {'form': form})
 
 @login_required
+def delete_account(request):
+    """Delete user account and all associated data"""
+    if request.method == 'POST':
+        user = request.user
+        # Log out the user before deletion
+        from django.contrib.auth import logout
+        logout(request)
+        # Delete the user (this will cascade delete all related objects)
+        user.delete()
+        messages.success(request, 'Your account has been permanently deleted. Thanks for playing Shopping Quest!')
+        return redirect('login')
+    
+    return render(request, 'quests/delete_account.html')
+
+@login_required
 def reset_completion_bonus(request, shop_id):
     """Debug endpoint to reset completion bonus flag"""
     shop = get_object_or_404(Shop, id=shop_id, adventurer=request.user)

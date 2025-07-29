@@ -129,6 +129,17 @@
         .cancel-btn:hover {
             background-color: #5a6268;
         }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
         .decorative-corner {
             position: fixed;
             bottom: 20px;
@@ -233,6 +244,17 @@
                 <a href="{% url 'quests:quest_log' %}" class="cancel-btn">Cancel</a>
             </div>
         </form>
+
+        <!-- Separate section for account deletion -->
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #dc3545;">
+            <h4 style="color: #dc3545; text-align: center; margin-bottom: 15px;">⚠️ Danger Zone</h4>
+            <div style="text-align: center;">
+                <p style="color: #6c757d; margin-bottom: 15px; font-size: 0.9em;">
+                    Permanently delete your account and all quest data
+                </p>
+                <a href="{% url 'quests:delete_account' %}" class="delete-btn">💀 Delete Account</a>
+            </div>
+        </div>
     </div>
 
     <!-- Decorative corner image -->
