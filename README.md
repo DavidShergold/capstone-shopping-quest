@@ -368,107 +368,66 @@ heroku run python manage.py createsuperuser
 
 ### � Wireframes & Design Process
 
+### 🎨 Wireframes & Design Process
+
 Shopping Quest was developed with a comprehensive design-first approach, using wireframes to plan the user experience and interface layouts before implementation.
 
-#### **📱 Mobile-First Wireframe Strategy**
+#### **� Wireframe Overview**
 
-Following mobile-first design principles, wireframes were created to ensure optimal user experience across all device sizes:
+![Shopping Quest Wireframes](docs/images/sqwf.png)
 
-**Mobile Wireframes (320px - 768px):**
-- Vertical stacked layout for quest items
-- Collapsible shop management sections
-- Touch-friendly button sizing (minimum 44px)
-- Hidden decorative elements for clean interface
+*Complete wireframe collection showing responsive design planning for Shopping Quest*
 
-**Tablet Wireframes (768px - 1024px):**
-- Two-column layout for better content organization
-- Medium-sized decorative elements
-- Balanced spacing between interactive elements
+#### **🎯 Design Planning Process**
 
-**Desktop Wireframes (1024px+):**
-- Multi-column layout with sidebar navigation
-- Full decorative corner elements
-- Hover states and advanced interactions
+The wireframes demonstrate the systematic approach taken to design Shopping Quest:
 
-#### **🗂️ Wireframe Collection**
+**Key Design Elements Captured:**
+- **User Authentication Flow**: Registration, login, and profile management interfaces
+- **Main Dashboard Layout**: Quest log with player statistics and progress tracking
+- **Shop Management Interface**: CRUD operations for shop creation, editing, and deletion
+- **Objective Management**: Quest item creation, editing, and completion workflows
+- **Gamification Features**: XP tracking, level progression, and leaderboard integration
+- **Responsive Breakpoints**: Mobile, tablet, and desktop layout adaptations
 
-*Wireframes are stored in the `docs/wireframes/` directory and include:*
+**User Experience Priorities:**
+- **Mobile-First Design**: Touch-friendly interfaces and thumb navigation zones
+- **Clear Information Hierarchy**: Player stats, shop filtering, and quest objectives properly organized
+- **Accessibility Planning**: Screen reader navigation paths and keyboard interaction flows
+- **Visual Feedback Systems**: Progress bars, completion states, and user action confirmations
 
-1. **Authentication Flow**
-   - `login-wireframe.png` - Login page layout
-   - `register-wireframe.png` - Registration form design
-   - `profile-edit-wireframe.png` - Profile management interface
+#### **📱 Responsive Design Strategy**
 
-2. **Main Application Flow**
-   - `dashboard-wireframe.png` - Main quest log with player stats
-   - `shop-management-wireframe.png` - Shop creation and editing
-   - `objective-management-wireframe.png` - Quest objective CRUD operations
+The wireframes showcase the mobile-first approach:
 
-3. **Gamification Features**
-   - `leaderboard-wireframe.png` - Heroes' Hall of Fame rankings
-   - `progress-tracking-wireframe.png` - XP bars and level progression
-   - `completion-celebration-wireframe.png` - Quest completion modals
+#### **📱 Responsive Design Strategy**
 
-4. **Responsive Breakpoints**
-   - `mobile-navigation-wireframe.png` - Mobile menu and navigation
-   - `tablet-layout-wireframe.png` - Tablet-optimized interface
-   - `desktop-full-wireframe.png` - Desktop with all features
+The wireframes showcase the mobile-first approach:
 
-#### **🎯 Key Design Decisions from Wireframes**
+**Mobile Layout (320px - 768px):**
+- Vertical stacked layout optimized for touch navigation
+- Collapsible sections to conserve screen space
+- Large, thumb-friendly interactive elements
+- Simplified navigation patterns
 
-**Information Hierarchy:**
-- Player stats positioned prominently at top
-- Shop filtering as secondary navigation
-- Quest objectives as primary content area
-- Actions buttons clearly separated and color-coded
+**Tablet Layout (768px - 1024px):**
+- Balanced two-column layouts for better content organization
+- Optimal spacing for touch and mouse interactions
+- Intermediate decorative elements
 
-**User Flow Optimization:**
-- One-click access to all CRUD operations
-- Progressive disclosure for advanced features (shop management)
-- Clear visual feedback for all user actions
-- Logical navigation paths between related features
+**Desktop Layout (1024px+):**
+- Full feature set with advanced interactions
+- Complete decorative elements and visual polish
+- Multi-column layouts for maximum content density
 
-**Accessibility Considerations:**
-- High contrast color schemes planned from wireframe stage
-- Proper heading hierarchy and semantic structure
-- Touch target sizing for mobile interactions
-- Screen reader navigation paths mapped out
-
-**Gamification Integration:**
-- XP and level information integrated naturally into interface
-- Progress bars positioned for immediate feedback
-- Leaderboard accessible but not overwhelming
-- Achievement celebrations designed as overlay modals
-
-#### **📐 Wireframe Tools & Process**
-
-**Design Tools Used:**
-- **Figma**: Primary wireframing and prototyping tool
-- **Balsamiq**: Quick low-fidelity concept sketches  
-- **Paper Sketches**: Initial brainstorming and user flow mapping
-
-**Iterative Design Process:**
-1. **User Story Mapping**: Translated user stories into screen requirements
-2. **Low-Fidelity Sketches**: Rapid paper prototypes for core concepts
-3. **Digital Wireframes**: Detailed layouts with spacing and proportions
-4. **Interactive Prototypes**: Clickable wireframes for user flow testing
-5. **Responsive Adaptation**: Breakpoint-specific layout variations
-6. **Accessibility Review**: Screen reader and keyboard navigation testing
-
-*📁 **Wireframe Access**: All wireframes are stored in `docs/wireframes/` directory for assessment review*
-
-**🎯 Quick Reference**: 
-- `docs/wireframes/README.md` - Complete wireframe creation guide
-- `docs/wireframes/ascii-examples.md` - Layout concept demonstrations
-- Visual wireframes can be added to demonstrate design planning process
-
-#### **🔄 Design to Development Workflow**
+#### **�️ Design to Implementation Process**
 
 The wireframes directly informed the final implementation:
-- **CSS Grid/Flexbox**: Layout structures match wireframe specifications
-- **Component Hierarchy**: HTML semantic structure follows wireframe organization  
-- **Responsive Breakpoints**: Media queries implement exact wireframe breakpoints
-- **User Interaction Patterns**: JavaScript behaviors match wireframe interactions
+- **Layout Structure**: CSS Grid and Flexbox match wireframe specifications exactly
+- **Component Hierarchy**: HTML semantic structure follows wireframe organization
+- **Responsive Breakpoints**: Media queries implement wireframe breakpoint strategy
+- **User Interactions**: JavaScript behaviors align with wireframe interaction patterns
+- **Accessibility Features**: Screen reader navigation paths planned in wireframe stage
 
 ### �🎯 User Stories
 
