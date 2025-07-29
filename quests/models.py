@@ -5,20 +5,21 @@ from django.dispatch import receiver
 
 # Create your models here.
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     level = models.PositiveIntegerField(default=1)
     experience = models.PositiveIntegerField(default=0)
     total_experience = models.PositiveIntegerField(default=0)
-    
+
     def __str__(self):
         return f"{self.user.username} - Level {self.level} ({self.experience} XP)"
-    
+
     @property
     def experience_to_next_level(self):
         """Calculate XP needed for next level"""
         return self.get_level_requirement(self.level + 1) - self.total_experience
-    
+
     @property
     def current_level_progress(self):
         """Calculate progress through current level as percentage"""
@@ -27,7 +28,7 @@ class UserProfile(models.Model):
         level_xp_range = next_level_req - current_level_req
         current_progress = self.total_experience - current_level_req
         return (current_progress / level_xp_range * 100) if level_xp_range > 0 else 100
-    
+
     @staticmethod
     def get_level_requirement(level):
         """Calculate total XP required for a given level"""
@@ -35,12 +36,12 @@ class UserProfile(models.Model):
             return 0
         # Level formula: 100 * level^1.5 (gets progressively harder)
         return int(100 * (level ** 1.5))
-    
+
     def add_experience(self, amount):
         """Add experience and handle level ups"""
         self.experience += amount
         self.total_experience += amount
-        
+
         # Check for level ups
         new_level = self.calculate_level_from_experience(self.total_experience)
         if new_level > self.level:
@@ -48,10 +49,10 @@ class UserProfile(models.Model):
             self.level = new_level
             self.save()
             return new_level - old_level  # Return levels gained
-        
+
         self.save()
         return 0  # No level up
-    
+
     def calculate_level_from_experience(self, total_xp):
         """Calculate what level player should be based on total XP"""
         level = 1
@@ -75,6 +76,7 @@ def save_user_profile(sender, instance, **kwargs):
     else:
         UserProfile.objects.create(user=instance)
 
+
 class Shop(models.Model):
     name = models.CharField(max_length=100)
     adventurer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -82,7 +84,7 @@ class Shop(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def check_completion_bonus(self):
         """Check if all objectives are complete and award bonus XP"""
         print(f"DEBUG - check_completion_bonus called for shop: {self.name}")
@@ -132,7 +134,7 @@ class QuestObjective(models.Model):
         status = "✓" if self.is_completed else "○"
         qty = f" (x{self.quantity})" if self.quantity > 1 else ""
         return f"{status} {self.name}{qty}"
-    
+
     def award_experience(self):
         """Award experience for completing this objective"""
         if self.is_completed and not self.experience_awarded:

@@ -32,7 +32,7 @@ class QuestLogForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        
+
         # Filter shops to only show those belonging to the current user
         if user:
             self.fields['shop'].queryset = Shop.objects.filter(adventurer=user)
@@ -121,7 +121,7 @@ class CustomUserCreationForm(UserCreationForm):
             'placeholder': 'Enter your email address...'
         })
     )
-    
+
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
@@ -131,7 +131,7 @@ class CustomUserCreationForm(UserCreationForm):
                 'placeholder': 'Choose a username...'
             })
         }
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Style the password fields
@@ -143,17 +143,17 @@ class CustomUserCreationForm(UserCreationForm):
             'class': 'form-control',
             'placeholder': 'Confirm your password...'
         })
-        
+
         # Update labels
         self.fields['username'].label = 'Adventurer Name'
         self.fields['email'].label = 'Email Address'
         self.fields['password1'].label = 'Password'
         self.fields['password2'].label = 'Confirm Password'
-        
+
         # Update help texts
         self.fields['username'].help_text = 'Choose a unique name for your shopping adventures!'
         self.fields['password1'].help_text = 'Your password must be at least 8 characters long.'
-    
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']

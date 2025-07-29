@@ -409,7 +409,7 @@ Shopping Quest was developed following Agile methodology with clear user stories
 
 This project follows Agile methodology with a comprehensive GitHub Projects board tracking all user stories and development tasks.
 
-**🔗 [View Live Project Board](https://github.com/users/DavidShergold/projects/1)**
+**🔗 [View Live Project Board](https://github.com/users/DavidShergold/projects/7)**
 
 ### 📈 Sprint Structure
 
