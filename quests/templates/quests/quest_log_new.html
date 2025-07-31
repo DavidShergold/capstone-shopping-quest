@@ -104,10 +104,35 @@
         .add-quest-btn:hover, .new-quest-button:hover {
             background-color: #2980b9;
         }
+
+        /* Logout quest button styling */
+        .logout-quest-button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+            font-family: 'Metamorphous', cursive;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .logout-quest-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .logout-quest-button:focus {
+            outline: 3px solid #e74c3c;
+            outline-offset: 2px;
+        }
         
         /* Mobile responsive button layout */
         @media (max-width: 480px) {
-            .new-quest-button {
+            .new-quest-button, .logout-quest-button {
                 display: block;
                 margin: 10px auto !important;
                 max-width: 200px;
@@ -445,6 +470,7 @@
         .delete-shop-btn:focus,
         .manage-shops-btn:focus,
         .new-quest-button:focus,
+        .logout-quest-button:focus,
         .add-quest-btn:focus,
         .shop-dropdown:focus {
             outline: 3px solid #3498db;
@@ -757,7 +783,7 @@
         {% if user.is_authenticated %}
         <form id="logout-form" method="post" action="{% url 'logout' %}" style="text-align: center; margin-top: 20px;">
             {% csrf_token %}
-            <button type="button" id="logout-btn" aria-label="Log out of your account">Log Out</button>
+            <button type="button" id="logout-btn" class="logout-quest-button" aria-label="Log out of your account">🚪 End Quest</button>
         </form>
     {% endif %}
     </nav>
