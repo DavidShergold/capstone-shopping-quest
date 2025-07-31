@@ -455,6 +455,142 @@
         .quest-description {
             color: #4a4a4a; /* Darker for better contrast */
         }
+
+        /* Logout Modal Styles */
+        .logout-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logout-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+        }
+
+        .logout-modal-content {
+            position: relative;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)),
+                url('{% static "quests/images/stone.png" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid #8B4513;
+            max-width: 450px;
+            width: 90%;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .logout-modal-header {
+            padding: 25px 30px 15px;
+            text-align: center;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .logout-modal-header h3 {
+            margin: 0;
+            color: #d32f2f;
+            font-size: 1.5em;
+            font-family: 'Metamorphous', cursive;
+        }
+
+        .logout-modal-body {
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .logout-modal-body p {
+            margin: 0 0 15px 0;
+            color: #4a4a4a;
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+
+        .logout-subtitle {
+            font-size: 0.95em !important;
+            color: #666 !important;
+            font-style: italic;
+        }
+
+        .logout-modal-footer {
+            padding: 15px 30px 25px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .logout-cancel-btn, .logout-confirm-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: 'Metamorphous', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .logout-cancel-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .logout-cancel-btn:hover {
+            background-color: #388e3c;
+            transform: scale(1.05);
+        }
+
+        .logout-confirm-btn {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        .logout-confirm-btn:hover {
+            background-color: #b71c1c;
+            transform: scale(1.05);
+        }
+
+        /* Mobile responsiveness for modal */
+        @media (max-width: 768px) {
+            .logout-modal-content {
+                margin: 20px;
+                max-width: none;
+            }
+            
+            .logout-modal-footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .logout-cancel-btn, .logout-confirm-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -619,9 +755,9 @@
         {% endif %}
 
         {% if user.is_authenticated %}
-        <form method="post" action="{% url 'logout' %}" style="text-align: center; margin-top: 20px;">
+        <form id="logout-form" method="post" action="{% url 'logout' %}" style="text-align: center; margin-top: 20px;">
             {% csrf_token %}
-            <button type="submit" aria-label="Log out of your account">Log Out</button>
+            <button type="button" id="logout-btn" aria-label="Log out of your account">Log Out</button>
         </form>
     {% endif %}
     </nav>
@@ -631,6 +767,95 @@
     <!-- Decorative corner image -->
     <div class="decorative-corner"></div>
     
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="logout-modal" style="display: none;">
+        <div class="logout-modal-overlay"></div>
+        <div class="logout-modal-content">
+            <div class="logout-modal-header">
+                <h3>🚪 Confirm Logout</h3>
+            </div>
+            <div class="logout-modal-body">
+                <p>Are you sure you want to end your Shopping Quest adventure?</p>
+                <p class="logout-subtitle">Your progress will be saved and you can return anytime!</p>
+            </div>
+            <div class="logout-modal-footer">
+                <button id="cancel-logout" class="logout-cancel-btn">🛡️ Stay Logged In</button>
+                <button id="confirm-logout" class="logout-confirm-btn">🚪 Yes, Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logout confirmation modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutBtn = document.getElementById('logout-btn');
+            const logoutModal = document.getElementById('logout-modal');
+            const logoutForm = document.getElementById('logout-form');
+            const cancelLogout = document.getElementById('cancel-logout');
+            const confirmLogout = document.getElementById('confirm-logout');
+            const modalOverlay = document.querySelector('.logout-modal-overlay');
+
+            // Show modal when logout button is clicked
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    logoutModal.style.display = 'flex';
+                    // Focus on cancel button for accessibility
+                    setTimeout(() => cancelLogout.focus(), 100);
+                });
+            }
+
+            // Hide modal and stay logged in
+            function hideModal() {
+                logoutModal.style.display = 'none';
+            }
+
+            if (cancelLogout) {
+                cancelLogout.addEventListener('click', hideModal);
+            }
+
+            // Hide modal when clicking overlay
+            if (modalOverlay) {
+                modalOverlay.addEventListener('click', hideModal);
+            }
+
+            // Confirm logout and submit form
+            if (confirmLogout) {
+                confirmLogout.addEventListener('click', function() {
+                    logoutForm.submit();
+                });
+            }
+
+            // Handle escape key to close modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && logoutModal.style.display === 'flex') {
+                    hideModal();
+                }
+            });
+
+            // Trap focus within modal when open
+            logoutModal.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    const focusableElements = logoutModal.querySelectorAll('button');
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        }
+                    } else {
+                        if (document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
     <!-- Quest Footer -->
     <footer class="quest-footer">
         <div class="footer-content">
