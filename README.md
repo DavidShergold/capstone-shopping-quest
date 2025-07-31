@@ -2,6 +2,35 @@
 
 A gamified shopping list application built with Django. Transform your shopping into an epic quest with XP rewards, leveling system, and quest objectives!
 
+## 📋 Table of Contents
+
+<details>
+<summary>📖 Click to expand navigation menu</summary>
+
+- [🌐 Live Demo](#-live-demo)
+- [✨ Features](#-features)
+- [🛠️ CRUD Functionality](#️-crud-functionality)
+- [🛠️ Technology Stack](#️-technology-stack)
+- [🚀 Performance & Accessibility](#-performance--accessibility)
+- [📈 Game Mechanics](#-game-mechanics)
+- [🚀 Getting Started](#-getting-started)
+- [📊 Database Management](#-database-management)
+- [🏗️ Project Structure](#️-project-structure)
+- [🚀 Deployment](#-deployment)
+- [🎮 How to Play](#-how-to-play)
+- [🎯 Recent Updates](#-recent-updates)
+- [🧪 Testing Features](#-testing-features)
+- [📋 User Experience Design & User Stories](#-user-experience-design--user-stories)
+- [🔄 Agile Development Process](#-agile-development-process)
+- [🧪 Comprehensive Testing Documentation](#-comprehensive-testing-documentation)
+- [🚀 Production Deployment Guide](#-production-deployment-guide)
+- [🙏 Credits & Acknowledgments](#-credits--acknowledgments)
+- [🤖 AI Implementation & Development Assistance](#-ai-implementation--development-assistance)
+
+</details>
+
+---
+
 ## 🌐 Live Demo
 
 **[🚀 Try Shopping Quest Live!](https://shopping-quest-david-198f3e2fc835.herokuapp.com/)**
