@@ -200,7 +200,7 @@
             align-items: center;
             gap: 5px;
         }
-        .delete-shop-btn {
+        .delete-shop-btn, .abandon-quest-btn {
             background-color: #e74c3c;
             color: white;
             padding: 4px 8px;
@@ -214,8 +214,9 @@
             height: 28px;
             line-height: 1;
         }
-        .delete-shop-btn:hover {
+        .delete-shop-btn:hover, .abandon-quest-btn:hover {
             background-color: #c0392b;
+            transform: scale(1.05);
         }
         .edit-shop-btn {
             background-color: #3498db;
@@ -468,6 +469,7 @@
         /* Focus visible improvements */
         .edit-shop-btn:focus,
         .delete-shop-btn:focus,
+        .abandon-quest-btn:focus,
         .manage-shops-btn:focus,
         .new-quest-button:focus,
         .logout-quest-button:focus,
@@ -681,10 +683,9 @@
                         <span class="shop-name">🏪 {{ shop.name }}</span>
                         <div class="shop-actions">
                             <a href="{% url 'quests:edit_shop' shop.id %}" class="edit-shop-btn" aria-label="Edit {{ shop.name }} shop">✏️ <span class="sr-only">Edit</span></a>
-                            <a href="{% url 'quests:delete_shop' shop.id %}" class="delete-shop-btn" 
-                               onclick="return confirm('Are you sure you want to delete {{ shop.name }}?')"
-                               aria-label="Delete {{ shop.name }} shop">
-                                🗑️ <span class="sr-only">Delete</span>
+                            <a href="{% url 'quests:delete_shop' shop.id %}" class="abandon-quest-btn" 
+                               aria-label="Abandon {{ shop.name }} quest">
+                                � <span class="sr-only">Abandon Quest</span>
                             </a>
                         </div>
                     </div>

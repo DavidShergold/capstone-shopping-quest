@@ -1,106 +1,237 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Shop - Shopping Quest</title>
+    <title>Abandon Quest - Shopping Quest</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Metamorphous&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'quests/images/icon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'quests/images/icon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'quests/images/icon.png' %}">
     <style>
         body {
             font-family: 'Metamorphous', cursive;
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background-image: url('{% static "quests/images/background.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
         }
         .header {
-            background-color: #2c3e50;
+            background-image: url('{% static "quests/images/header.png" %}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
             color: white;
-            padding: 20px;
+            padding: 0;
             border-radius: 8px;
             margin-bottom: 20px;
             text-align: center;
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+            height: auto;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .delete-form {
-            background-color: white;
-            border: 1px solid #e74c3c;
+        .abandon-container {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+                url('{% static "quests/images/stone.png" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 2px solid #8B4513;
+            text-align: center;
+        }
+        h2 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffeaa7;
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            color: #856404;
         }
-        .warning {
-            background-color: #fdf2f2;
-            border: 1px solid #e74c3c;
+        .warning-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .warning-text {
+            font-size: 1.1em;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+        .quest-info {
+            background-color: #e3f2fd;
+            border: 2px solid #64b5f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #1565c0;
+        }
+        .quest-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .quest-details {
+            text-align: left;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
             border-radius: 5px;
             padding: 15px;
-            margin-bottom: 20px;
+            margin: 15px 0;
             color: #721c24;
         }
-        .shop-info {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
+        .quest-details h4 {
+            margin-top: 0;
+            color: #721c24;
+        }
+        .quest-details ul {
+            margin: 10px 0;
+            padding-left: 20px;
         }
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
+            margin-top: 30px;
         }
-        .delete-btn {
+        .abandon-btn {
             background-color: #e74c3c;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.1em;
+            font-family: 'Metamorphous', cursive;
+            transition: all 0.3s ease;
         }
-        .delete-btn:hover {
+        .abandon-btn:hover {
             background-color: #c0392b;
+            transform: scale(1.05);
         }
         .cancel-btn {
-            background-color: #6c757d;
+            background-color: #4caf50;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             text-decoration: none;
             border-radius: 5px;
-            font-size: 1em;
+            font-size: 1.1em;
+            font-family: 'Metamorphous', cursive;
+            transition: all 0.3s ease;
         }
         .cancel-btn:hover {
-            background-color: #5a6268;
+            background-color: #388e3c;
+            transform: scale(1.05);
+        }
+        .decorative-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 240px;
+            height: 240px;
+            background-image: url('{% static "quests/images/image.png" %}?v=8');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.7;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .abandon-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .decorative-corner {
+                width: 160px;
+                height: 160px;
+                opacity: 0.4;
+            }
+        }
+        @media (max-width: 480px) {
+            .decorative-corner {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🗡️ Shopping Quest</h1>
-        <p>Delete Shop</p>
+        <!-- Header image background only -->
     </div>
 
-    <div class="delete-form">
-        <div class="warning">
-            <strong>⚠️ Warning!</strong><br>
-            This action cannot be undone. Deleting this shop will also remove all associated quest items.
+    <div class="abandon-container">
+        <h2>� Abandon Quest</h2>
+        
+        <div class="warning-box">
+            <span class="warning-icon">⚠️</span>
+            <div class="warning-text">
+                <strong>WARNING: This quest will be permanently abandoned!</strong><br>
+                Once you abandon this quest, all progress and objectives will be lost forever.
+            </div>
         </div>
 
-        <div class="shop-info">
-            <h3>Shop to Delete:</h3>
-            <p><strong>🏪 {{ shop.name }}</strong></p>
+        <div class="quest-info">
+            <div class="quest-name">🏪 {{ shop.name }}</div>
+            <p>This quest shop and all its associated objectives will be permanently removed from your adventure log.</p>
         </div>
 
-        <p>Are you sure you want to delete this shop and all its associated quests?</p>
+        <div class="quest-details">
+            <h4>📋 What will be lost when you abandon this quest:</h4>
+            <ul>
+                <li><strong>Quest Shop:</strong> "{{ shop.name }}" will be deleted permanently</li>
+                <li><strong>All Objectives:</strong> Every shopping item and quest objective in this shop</li>
+                <li><strong>Progress History:</strong> Any completion records and XP earned from this quest</li>
+                <li><strong>Quest Data:</strong> All notes, quantities, and quest details</li>
+            </ul>
+            <p><strong>Note:</strong> Your total XP and level will not be affected - only future progress from this quest will be lost.</p>
+        </div>
+
+        <div class="warning-box">
+            <div class="warning-text">
+                <strong>Are you absolutely sure you want to abandon "{{ shop.name }}"?</strong><br>
+                This action cannot be undone, and you'll need to create a new quest if you want to shop here again.
+            </div>
+        </div>
 
         <form method="post">
             {% csrf_token %}
             <div class="button-group">
-                <button type="submit" class="delete-btn">🗑️ Yes, Delete Shop</button>
-                <a href="{% url 'quests:quest_log' %}" class="cancel-btn">❌ Cancel</a>
+                <a href="{% url 'quests:quest_log' %}" class="cancel-btn">�️ Keep Quest</a>
+                <button type="submit" class="abandon-btn" onclick="return confirm('Final confirmation: Abandon {{ shop.name }} quest forever?')">💀 Abandon Forever</button>
             </div>
         </form>
     </div>
+
+    <!-- Decorative corner image -->
+    <div class="decorative-corner"></div>
 </body>
 </html>
