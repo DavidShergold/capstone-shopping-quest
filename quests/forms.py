@@ -48,7 +48,7 @@ class ShopForm(forms.ModelForm):
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter shop name...',
-                'maxlength': 100
+                'maxlength': 20  # Updated to match model limit
             })
         }
         labels = {
@@ -80,17 +80,17 @@ class QuestObjectiveForm(forms.ModelForm):
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter item name...',
-                'maxlength': 200
+                'maxlength': 20  # Updated to match model limit
             }),
             'quantity': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'min': 1,
                 'value': 1
             }),
-            'notes': forms.Textarea(attrs={
+            'notes': forms.TextInput(attrs={  # Changed from Textarea to TextInput
                 'class': 'form-control',
                 'placeholder': 'Additional notes (optional)...',
-                'rows': 3
+                'maxlength': 50  # Updated to match model limit
             })
         }
         labels = {

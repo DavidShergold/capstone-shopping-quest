@@ -396,8 +396,6 @@ heroku run python manage.py createsuperuser
 
 ## 📋 User Experience Design & User Stories
 
-### � Wireframes & Design Process
-
 ### 🎨 Wireframes & Design Process
 
 Shopping Quest was developed with a comprehensive design-first approach, using wireframes to plan the user experience and interface layouts before implementation.

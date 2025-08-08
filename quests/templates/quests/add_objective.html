@@ -255,6 +255,24 @@
             border-radius: 50%;
             border: 2px solid #34495e;
         }
+        
+        /* Character counter styles */
+        .character-counter {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .character-counter.warning {
+            color: #e67e22;
+            font-weight: bold;
+        }
+        
+        .character-counter.error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -304,5 +322,70 @@
             </div>
         </div>
     </footer>
+    
+    <script>
+        // Character counter functionality for both name and notes
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Name field (20 character limit)
+            const nameInput = document.querySelector('input[name="name"]');
+            if (nameInput) {
+                setupCharacterCounter(nameInput, 20, 'name-counter');
+            }
+            
+            // Notes field (50 character limit) 
+            const notesInput = document.querySelector('input[name="notes"]');
+            if (notesInput) {
+                setupCharacterCounter(notesInput, 50, 'notes-counter');
+            }
+            
+            function setupCharacterCounter(input, maxLength, counterId) {
+                // Create character counter
+                const counter = document.createElement('div');
+                counter.className = 'character-counter';
+                counter.id = counterId;
+                
+                // Insert counter after the input field
+                input.parentNode.appendChild(counter);
+                
+                // Update counter function
+                function updateCounter() {
+                    const current = input.value.length;
+                    const remaining = maxLength - current;
+                    
+                    counter.textContent = `${current}/${maxLength} characters`;
+                    
+                    // Add visual feedback
+                    counter.classList.remove('warning', 'error');
+                    if (remaining <= 5 && remaining > 0) {
+                        counter.classList.add('warning');
+                    } else if (remaining <= 0) {
+                        counter.classList.add('error');
+                    }
+                    
+                    // Prevent further input if at limit
+                    if (current >= maxLength && event && event.inputType && 
+                        event.inputType !== 'deleteContentBackward' && 
+                        event.inputType !== 'deleteContentForward') {
+                        input.value = input.value.substring(0, maxLength);
+                        counter.textContent = `${maxLength}/${maxLength} characters - Maximum reached!`;
+                    }
+                }
+                
+                // Add event listeners
+                input.addEventListener('input', updateCounter);
+                input.addEventListener('keydown', function(e) {
+                    // Allow backspace, delete, arrow keys, etc.
+                    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Tab'];
+                    if (input.value.length >= maxLength && !allowedKeys.includes(e.key) && !e.ctrlKey) {
+                        e.preventDefault();
+                    }
+                });
+                
+                // Initial counter update
+                updateCounter();
+            }
+        });
+    </script>
 </body>
 </html>

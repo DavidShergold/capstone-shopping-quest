@@ -243,6 +243,28 @@
             border-radius: 50%;
             border: 2px solid #34495e;
         }
+        
+        /* Character counter styles */
+        .character-counter {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .character-counter.warning {
+            color: #e67e22;
+            font-weight: bold;
+        }
+        
+        .character-counter.error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .form-field-wrapper {
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -277,5 +299,58 @@
             </div>
         </div>
     </footer>
+    
+    <script>
+        // Character counter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.querySelector('input[name="name"]');
+            
+            if (nameInput) {
+                // Create character counter
+                const counter = document.createElement('div');
+                counter.className = 'character-counter';
+                counter.id = 'name-counter';
+                
+                // Insert counter after the input field
+                nameInput.parentNode.appendChild(counter);
+                
+                // Update counter function
+                function updateCounter() {
+                    const current = nameInput.value.length;
+                    const max = 20;
+                    const remaining = max - current;
+                    
+                    counter.textContent = `${current}/${max} characters`;
+                    
+                    // Add visual feedback
+                    counter.classList.remove('warning', 'error');
+                    if (remaining <= 5 && remaining > 0) {
+                        counter.classList.add('warning');
+                    } else if (remaining <= 0) {
+                        counter.classList.add('error');
+                    }
+                    
+                    // Prevent further input if at limit
+                    if (current >= max && event.inputType !== 'deleteContentBackward' && event.inputType !== 'deleteContentForward') {
+                        nameInput.value = nameInput.value.substring(0, max);
+                        counter.textContent = `${max}/${max} characters - Maximum reached!`;
+                    }
+                }
+                
+                // Add event listeners
+                nameInput.addEventListener('input', updateCounter);
+                nameInput.addEventListener('keydown', function(e) {
+                    // Allow backspace, delete, arrow keys, etc.
+                    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Tab'];
+                    if (nameInput.value.length >= 20 && !allowedKeys.includes(e.key) && !e.ctrlKey) {
+                        e.preventDefault();
+                    }
+                });
+                
+                // Initial counter update
+                updateCounter();
+            }
+        });
+    </script>
 </body>
 </html>

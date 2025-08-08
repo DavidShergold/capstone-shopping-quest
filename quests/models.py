@@ -78,7 +78,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 class Shop(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=20)  # Limited to 20 characters for better UI
     adventurer = models.ForeignKey(User, on_delete=models.CASCADE)
     completion_bonus_awarded = models.BooleanField(default=False)
 
@@ -118,10 +118,10 @@ class QuestLog(models.Model):
 
 
 class QuestObjective(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=20)  # Limited to 20 characters for consistent UI
     is_completed = models.BooleanField(default=False)
     quantity = models.PositiveIntegerField(default=1)
-    notes = models.TextField(blank=True)
+    notes = models.CharField(max_length=50, blank=True)  # Limited to 50 characters
     created_at = models.DateTimeField(auto_now_add=True)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     adventurer = models.ForeignKey(User, on_delete=models.CASCADE)
