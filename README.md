@@ -107,7 +107,7 @@ Shopping Quest is built with performance and accessibility as core priorities. H
 - **🔍 SEO**: 95+ - Semantic HTML structure with proper meta tags and descriptions
 
 ### 🎯 Accessibility Features
-
+ 
 - **🔤 Semantic HTML**: Proper heading hierarchy and landmark roles for screen readers
 - **🎯 ARIA Labels**: Comprehensive ARIA attributes for complex interactions and progress indicators
 - **⌨️ Keyboard Navigation**: Full keyboard accessibility with visible focus indicators
