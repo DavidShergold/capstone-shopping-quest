@@ -123,7 +123,7 @@ Shopping Quest is built with performance and accessibility as core priorities. H
 - **🌐 CDN Integration**: Fast font loading from Google Fonts with preconnect
 - **⚡ AJAX Updates**: Real-time updates without full page reloads
 
-*Want to add your own Lighthouse screenshot? Simply replace the image path above with your screenshot file!*
+
 
 ## 📈 Game Mechanics
 
