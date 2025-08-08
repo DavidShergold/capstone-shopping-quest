@@ -93,7 +93,51 @@ Shopping Quest now includes comprehensive **CRUD (Create, Read, Update, Delete)*
 - **Database Tools**: pgAdmin for database management
 - **UI/UX**: Mobile-first responsive design with adaptive visual elements
 
-## 🚀 Performance & Accessibility
+## � Database Schema & ERD
+
+### 🗂️ Entity Relationship Diagram
+
+![Database ERD](docs/images/user_erd.png)
+
+### 🔗 **Database Structure**
+
+Shopping Quest uses a clean, normalized database structure with the following key entities:
+
+#### **Core Models**
+- **User**: Django's built-in authentication model extended with profile data
+- **UserProfile**: Gaming data including XP, level calculations, and statistics  
+- **Shop**: User-created shopping categories with progress tracking
+- **QuestObjective**: Individual shopping items with completion status
+
+#### **Key Relationships**
+- **User ↔ UserProfile (1:1)**: Each user has exactly one gaming profile
+- **User ↔ Shop (1:M)**: Users can create multiple shopping lists  
+- **Shop ↔ QuestObjective (1:M)**: Each shop contains multiple shopping items
+- **User ↔ QuestObjective (1:M)**: Direct user relationship for authorization
+
+#### **Gamification Schema**
+```python
+# XP Rewards System
+- Complete Objective: +10 XP
+- Complete Shop (all objectives): +30 XP bonus
+
+# Dynamic Level Calculation  
+level = floor(total_experience / (100 * level^1.5)) + 1
+
+# Character Limits (Data Validation)
+- Shop names: 20 characters max
+- Objective names: 20 characters max  
+- Notes: 50 characters max
+```
+
+#### **Database Features**
+- **Foreign Key Constraints**: Ensures referential integrity
+- **Cascade Deletion**: Automatic cleanup of related records
+- **User Authorization**: Row-level security via user foreign keys
+- **Real-time Calculations**: Dynamic XP and level progression
+- **Optimized Queries**: Efficient leaderboard and progress tracking
+
+## �🚀 Performance & Accessibility
 
 Shopping Quest is built with performance and accessibility as core priorities. Here are our latest Lighthouse audit results:
 
