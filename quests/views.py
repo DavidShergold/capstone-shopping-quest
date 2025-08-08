@@ -99,7 +99,9 @@ def add_shop(request):
             shop = form.save(commit=False)
             shop.adventurer = request.user
             shop.save()
-            return redirect('quests:quest_log')  # Updated to use namespaced URL
+            # Add success message for "Quest Accepted!" modal
+            messages.success(request, f'Quest Accepted! Your adventure at "{shop.name}" begins now!')
+            return redirect('quests:quest_log')
     else:
         form = ShopForm()
 
